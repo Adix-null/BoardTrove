@@ -1,35 +1,67 @@
-@import './base.css';
+@font-face {
+  font-family: Sansation;
+  src: url("Sansation/Sansation-Regular.ttf");
+  line-height: 1.5;
+}
+@font-face {
+  font-family: Montserrat;
+  src: url("Montserrat/Montserrat-VariableFont_wght.ttf");
+  font-weight: 400;
+  line-height: 1.5;
+}
+:root {
+  --backround-color-accent: hsl(0, 0%, 3%);
+  --background-color-main: hsl(0, 0%, 12%);
+  --background-color-alt: hsl(0, 0%, 18%);
+  --background-color-hover: hsl(0, 0%, 60%);
+  --text-color-main: hsl(0, 0%, 94%);
+  --accent-dim: #0004e0;
+  --accent-main: #004be0;
+  --accent-highlight: #0093e0;
+  --accent-bright: #00d9e0;
+
+  font-family: Montserrat;
+
+  color-scheme: light dark;
+  color: var(--text-color-main);
+  background-color: var(--background-color-main);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
 #app {
   max-width: 1280px;
+  width: 100%;
+  height: 100vh;
   margin: 0 auto;
-  padding: 2rem;
   font-weight: normal;
 }
 
-a,
-.green {
+a {
   text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
-  transition: 0.4s;
-  padding: 3px;
 }
 
-@media (hover: hover) {
+body {
+  margin: 0px;
+}
+
+button {
+  all: unset;
+  cursor: pointer;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --text-color-main: hsl(0, 0%, 20%);
+    --backround-color-accent: hsl(0, 0%, 84%);
+    --background-color-main: hsl(0, 0%, 100%);
+    --background-color-alt: hsl(0, 0%, 91%);
+    --background-color-hover: hsl(0, 0%, 56%);
+  }
   a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
-  }
-}
-
-@media (min-width: 1024px) {
-  body {
-    display: flex;
-    place-items: center;
-  }
-
-  #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
+    color: #747bff;
   }
 }
