@@ -1,9 +1,28 @@
 <script setup lang="ts">
+import FeedPost from './components/FeedPost.vue';
 
 </script>
 
 <template>
-  <h1>Chess</h1>
+  <div id="main">
+    <div id="post_feed">
+      <FeedPost />
+      <FeedPost />
+      <FeedPost />
+    </div>
+  </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+#main {
+  display: flex;
+  flex-direction: row;
+}
+
+#post_feed {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+}
+</style>
