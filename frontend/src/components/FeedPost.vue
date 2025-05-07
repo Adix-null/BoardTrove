@@ -32,6 +32,10 @@ const boardConfig: BoardConfig = {
         <div class="chessboard-container">
             <TheChessboard :board-config="boardConfig" />
         </div>
+        <p id="description">
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Earum veritatis repellendus minima quibusdam ullam
+            sequi officiis dolor reiciendis sit possimus.
+        </p>
     </div>
 </template>
 
@@ -65,13 +69,13 @@ const boardConfig: BoardConfig = {
 }
 
 .username {
-    font-size: 16px;
+    font-size: 1em;
     font-weight: bold;
-    margin: 0;
+    margin-bottom: 5px;
 }
 
 .date-posted {
-    font-size: 14px;
+    font-size: 1em;
     margin: 0;
 }
 
@@ -79,5 +83,11 @@ const boardConfig: BoardConfig = {
     display: flex;
     justify-content: center;
     margin-top: 16px;
+}
+
+#description {
+    font-size: 1em;
+    margin: 1em;
+    cursor: text;
 }
 </style>
