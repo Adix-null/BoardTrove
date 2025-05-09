@@ -7,9 +7,7 @@ import FooterMy from './components/Footer.vue';
 
 <template>
   <div id="main">
-    <div id="navbar_wrapper">
-      <Navbar />
-    </div>
+    <Navbar />
     <div id="content_container">
       <div id="sidebar">
         <h2>Sidebar</h2>
@@ -44,13 +42,5 @@ import FooterMy from './components/Footer.vue';
   flex-direction: column;
   width: 100%;
   align-items: center;
-}
-
-#navbar_wrapper {
-  width: 100%;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 1000;
 }
 </style>
