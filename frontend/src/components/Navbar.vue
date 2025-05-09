@@ -12,7 +12,7 @@
             <img src="../assets/icons/user.png" alt="Icon 3" class="inv icon" />
         </div>
         <div class="header-right">
-            <a id="new_post">+ New post</a>
+            <button id="new_post">+ New post</button>
             <a href="">
                 <img src="../assets/icons/bell.png" alt="Icon 4" class="inv icon" />
             </a>

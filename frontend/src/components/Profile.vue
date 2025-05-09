@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Navbar from './Navbar.vue';
 import FooterMy from './Footer.vue';
-import Friendlist from './Friendlist.vue';
+import Friendlist from './FriendList.vue';
 
 </script>
 
