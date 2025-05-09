@@ -22,16 +22,18 @@ const boardConfig: BoardConfig = {
 <template>
     <div id="container">
         <div class="post-header">
-            <img class="profile-pic" src="../assets/test.jpg" alt="Profile Picture" />
+            <a href="https://www.google.com">
+                <img class="profile-pic" src="../assets/test.jpg" alt="Profile Picture" />
+            </a>
             <div class="user-info">
-                <p class="username">Username</p>
+                <a href="https://www.google.com" class="username">Username</a>
                 <p class="date-posted">Posted on Jan 1st, 1970</p>
             </div>
         </div>
         <h1>Feed Post</h1>
-        <div class="chessboard-container">
+        <a class="chessboard-container">
             <TheChessboard :board-config="boardConfig" />
-        </div>
+        </a>
         <p id="description">
             Lorem ipsum dolor, sit amet consectetur adipisicing elit. Earum veritatis repellendus minima quibusdam ullam
             sequi officiis dolor reiciendis sit possimus.

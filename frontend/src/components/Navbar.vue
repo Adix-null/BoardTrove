@@ -7,13 +7,14 @@
             <h1>BoardTrove</h1>
         </div>
         <div class="header-center">
-            <img src="../assets/icon1.png" alt="Icon 1" class="icon" />
-            <img src="../assets/icon2.png" alt="Icon 2" class="icon" />
-            <img src="../assets/icon3.png" alt="Icon 3" class="icon" />
+            <img src="../assets/icons/home.png" alt="Icon 1" class="inv icon" />
+            <img src="../assets/icons/fire.png" alt="Icon 2" class="inv icon" />
+            <img src="../assets/icons/profile.png" alt="Icon 3" class="inv icon" />
         </div>
         <div class="header-right">
-            <img src="../assets/icon4.png" alt="Icon 4" class="icon" />
-            <img src="../assets/icon5.png" alt="Icon 5" class="icon" />
+            <a>+ New post</a>
+            <img src="../assets/icons/bell.png" alt="Icon 4" class="inv icon" />
+            <img src="../assets/icons/profile.png" alt="Icon 5" class="inv icon" />
         </div>
     </div>
 </template>
@@ -42,12 +43,19 @@
 
 .header-right {
     display: flex;
+    align-items: center;
     gap: 16px;
 }
 
+.header-right a {
+    padding: 5px;
+    border: 2px solid var(--text-color-main);
+    border-radius: 5px;
+}
+
 .icon {
-    width: 24px;
-    height: 24px;
+    width: 30px;
+    aspect-ratio: 1/1;
     cursor: pointer;
 }
 </style>
