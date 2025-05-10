@@ -23,7 +23,7 @@ import FriendList from './FriendList.vue';
             </div>
 
             <div id="bio">
-                <p>lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatibus lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatibus
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ut diam lacinia, posuere ante ac, commodo diam. Duis vitae auctor purus, et sagittis ligula. Nam eu posuere est. Duis at interdum massa, nec imperdiet metus. Duis convallis velit metus, at semper lectus laoreet nec. In cursus tincidunt augue ullamcorper ullamcorper. 
                 </p>
                 <p>Links:
                     <a href="https://chess.com/user" target="_blank">chess.com</a>,
@@ -44,8 +44,7 @@ import FriendList from './FriendList.vue';
 <style scoped>
 #main {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    justify-content: center;
     padding: 16px;
 }
 

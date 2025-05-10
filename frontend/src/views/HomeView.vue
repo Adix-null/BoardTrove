@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import FeedPost from '@/components/FeedPost.vue';
+import FriendList from '@/components/FriendList.vue';
 </script>
 
 <template>
-  <div id="content_container">
+  <div id="main">
     <div id="sidebar">
       <h2>Sidebar</h2>
       <p>Links</p>
@@ -15,18 +16,24 @@ import FeedPost from '@/components/FeedPost.vue';
       <FeedPost maxWidth="700px"/>
       <FeedPost maxWidth="700px"/>
     </div>
+    <FriendList />
   </div>
 </template>
 
 <style scoped>
-#content_container {
+#main {
   display: flex;
   flex-direction: row;
+  justify-content: center;
 }
 
 #post_feed {
   display: flex;
   flex-direction: column;
-  width: 100%;
+  margin: 0 30px;
+}
+
+#sidebar {
+  width: 250px;
 }
 </style>

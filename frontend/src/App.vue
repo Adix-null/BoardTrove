@@ -12,10 +12,3 @@ import { RouterView } from 'vue-router';
     <FooterMy />
   </div>
 </template>
-
-<style scoped>
-#main {
-  display: flex;
-  flex-direction: column;
-}
-</style>
