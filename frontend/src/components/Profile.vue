@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import FeedPost from './FeedPost.vue';
+import FriendList from './FriendList.vue';
 </script>
 
 <template>
     <div id="main">
-        <div id="profile-container">
+        <div id="profile-wrapper">
             <div id="profile-header">
                 <img class="profile-pic" src="../assets/test.jpg" alt="Profile Picture" />
                 <div id="profile-info">
@@ -14,16 +15,15 @@ import FeedPost from './FeedPost.vue';
                         <button class="action-btn">Follow</button>
                     </div>
                     <div id="stats">
-                        <p>Posts: <span>10</span></p>
-                        <p>Followers: <span>200</span></p>
-                        <p>Following: <span>150</span></p>
+                        <p>0 posts</p>
+                        <p>0 followers</p>
+                        <p>0 following</p>                        
                     </div>
                 </div>
             </div>
 
             <div id="bio">
-                <p>My bio Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae
-                    vestibulum.
+                <p>lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatibus lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatibus
                 </p>
                 <p>Links:
                     <a href="https://chess.com/user" target="_blank">chess.com</a>,
@@ -32,11 +32,10 @@ import FeedPost from './FeedPost.vue';
             </div>
 
             <div id="content-container">
-                <div class="content-box">
-
-                    <FeedPost />
+                <div class="content_box" id="personal_posts">
+                    <FeedPost max-width="600px" />
+                    <FeedPost max-width="600px" />
                 </div>
-                <div class=" content-box">Box 2</div>
             </div>
         </div>
     </div>
@@ -50,9 +49,9 @@ import FeedPost from './FeedPost.vue';
     padding: 16px;
 }
 
-#profile-container {
+#profile-wrapper {
     width: 100%;
-    max-width: 800px;
+    max-width: 700px;
 }
 
 #profile-header {
@@ -75,26 +74,14 @@ import FeedPost from './FeedPost.vue';
 
 #actions {
     display: flex;
-    gap: 10px;
+    gap: 20px;
     margin: 10px 0;
-}
-
-.action-btn {
-    padding: 8px 16px;
-    background-color: var(--accent-main);
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.action-btn:hover {
-    background-color: var(--accent-highlight);
 }
 
 #stats {
     display: flex;
-    gap: 20px;
+    justify-content: start;
+    gap: 40px
 }
 
 #stats p {
@@ -121,18 +108,20 @@ import FeedPost from './FeedPost.vue';
 }
 
 #content-container {
+    width: 100%;
     display: flex;
     gap: 20px;
     justify-content: center;
 }
 
-.content-box {
-    flex: 1;
+.content_box {
     min-width: 200px;
-    height: 150px;
-    border: 1px solid var(--text-color-main, #ccc);
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
     font-size: 16px;
+}
+
+#personal_posts{
 }
 </style>

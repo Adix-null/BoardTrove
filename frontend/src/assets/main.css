@@ -54,6 +54,21 @@ button {
   all: unset;
   cursor: pointer;
 }
+
+.action-btn {
+  padding: 8px 16px;
+  background-color: var(--accent-main);
+  border-radius: 5px;
+}
+
+.action-btn:hover {
+  background-color: var(--accent-highlight);
+}
+
+.action-btn:active {
+  background-color: var(--accent-bright);
+}
+
 p,
 span {
   display: block !important;

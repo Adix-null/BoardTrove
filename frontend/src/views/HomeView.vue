@@ -11,9 +11,9 @@ import FeedPost from '@/components/FeedPost.vue';
       <p>Links</p>
     </div>
     <div id="post_feed">
-      <FeedPost />
-      <FeedPost />
-      <FeedPost />
+      <FeedPost maxWidth="700px"/>
+      <FeedPost maxWidth="700px"/>
+      <FeedPost maxWidth="700px"/>
     </div>
   </div>
 </template>
@@ -22,13 +22,11 @@ import FeedPost from '@/components/FeedPost.vue';
 #content_container {
   display: flex;
   flex-direction: row;
-  margin: 50px;
 }
 
 #post_feed {
   display: flex;
   flex-direction: column;
   width: 100%;
-  align-items: center;
 }
 </style>

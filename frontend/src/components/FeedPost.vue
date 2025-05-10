@@ -11,6 +11,13 @@ onMounted(() => {
 
 const fen = "5rkq/3prp1p/5RpP/p1p5/5QP1/1B6/P4PK1/8 w - - 1 1";
 
+defineProps({
+    maxWidth: {
+        type: String,
+        default: "100%", // Default max-width
+    },
+});
+
 const boardConfig: BoardConfig = {
     fen: fen,
     coordinates: true,
@@ -20,13 +27,13 @@ const boardConfig: BoardConfig = {
 
 
 <template>
-    <div id="container">
+    <div id="container" :style="{ maxWidth: maxWidth }">
         <div class="post-header">
-            <a href="https://www.google.com">
+            <a href="/profile">
                 <img class="profile-pic" src="../assets/test.jpg" alt="Profile Picture" />
             </a>
             <div class="user-info">
-                <a href="https://www.google.com" class="username">Username</a>
+                <a href="/profile" class="username">Username</a>
                 <p class="date-posted">Posted on Jan 1st, 1970</p>
             </div>
         </div>
@@ -46,7 +53,6 @@ const boardConfig: BoardConfig = {
     padding: 16px;
     border: 1px solid var(--text-color-main);
     border-radius: 5px;
-    max-width: 600px;
     margin: 16px auto;
 }
 
