@@ -4,6 +4,7 @@ import Profile from '@/components/Profile.vue';
 
 <template>
     <Profile />
+    <FeedPost />
 </template>
 
 <style scoped></style>

@@ -15,10 +15,10 @@
   --background-color-alt: hsl(0, 0%, 18%);
   --background-color-hover: hsl(0, 0%, 60%);
   --text-color-main: hsl(0, 0%, 94%);
-  --accent-dim: #0004e0;
-  --accent-main: #004be0;
-  --accent-highlight: #0093e0;
-  --accent-bright: #00d9e0;
+  --accent-dim: #bb7300;
+  --accent-main: #e08114;
+  --accent-highlight: #ff991c;
+  --accent-bright: #ffb43a;
 
   font-family: Montserrat;
 
