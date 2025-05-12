@@ -41,10 +41,13 @@ const boardConfig: BoardConfig = {
         <a class="chessboard-container">
             <TheChessboard :board-config="boardConfig" />
         </a>
-        <p id="description">
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Earum veritatis repellendus minima quibusdam ullam
-            sequi officiis dolor reiciendis sit possimus.
-        </p>
+        <div id="description">
+            <p>
+                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Earum veritatis repellendus minima quibusdam
+                ullam
+                sequi officiis dolor reiciendis sit possimus.
+            </p>
+        </div>
     </div>
 </template>
 
@@ -65,7 +68,6 @@ const boardConfig: BoardConfig = {
 .profile-pic {
     width: 50px;
     height: 50px;
-    border-radius: 50%;
     object-fit: cover;
     margin-right: 16px;
 }
@@ -94,6 +96,7 @@ const boardConfig: BoardConfig = {
 }
 
 #description {
+    display: none;
     font-size: 1em;
     margin: 1em;
     cursor: text;

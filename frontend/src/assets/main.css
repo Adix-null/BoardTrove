@@ -18,7 +18,7 @@
   --accent-dim: #bb7300;
   --accent-main: #e08114;
   --accent-highlight: #ff991c;
-  --accent-bright: #ffb43a;
+  --accent-bright: #ffc567;
 
   font-family: Montserrat;
 
@@ -59,6 +59,7 @@ button {
   padding: 8px 16px;
   background-color: var(--accent-main);
   border-radius: 5px;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 .action-btn:hover {
@@ -67,12 +68,6 @@ button {
 
 .action-btn:active {
   background-color: var(--accent-bright);
-}
-
-p,
-span {
-  display: block !important;
-  all: unset;
 }
 
 img.inv {

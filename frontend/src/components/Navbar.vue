@@ -16,7 +16,7 @@
             <img src="../assets/icons/user.png" alt="Icon 3" class="inv icon" />
         </div>
         <div class="header-right">
-            <a href="/new-post">
+            <a href="/create-post">
                 <span id="new_post">+ New post</span>
             </a>
             <a href="">

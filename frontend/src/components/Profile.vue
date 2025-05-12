@@ -17,13 +17,16 @@ import FriendList from './FriendList.vue';
                     <div id="stats">
                         <p>0 posts</p>
                         <p>0 followers</p>
-                        <p>0 following</p>                        
+                        <p>0 following</p>
                     </div>
                 </div>
             </div>
 
             <div id="bio">
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ut diam lacinia, posuere ante ac, commodo diam. Duis vitae auctor purus, et sagittis ligula. Nam eu posuere est. Duis at interdum massa, nec imperdiet metus. Duis convallis velit metus, at semper lectus laoreet nec. In cursus tincidunt augue ullamcorper ullamcorper. 
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ut diam lacinia, posuere ante ac,
+                    commodo diam. Duis vitae auctor purus, et sagittis ligula. Nam eu posuere est. Duis at interdum
+                    massa, nec imperdiet metus. Duis convallis velit metus, at semper lectus laoreet nec. In cursus
+                    tincidunt augue ullamcorper ullamcorper.
                 </p>
                 <p>Links:
                     <a href="https://chess.com/user" target="_blank">chess.com</a>,
@@ -62,7 +65,6 @@ import FriendList from './FriendList.vue';
 .profile-pic {
     width: 130px;
     height: 130px;
-    border-radius: 50%;
     object-fit: cover;
     margin-right: 30px;
 }
@@ -119,8 +121,5 @@ import FriendList from './FriendList.vue';
     flex-direction: column;
     align-items: center;
     font-size: 16px;
-}
-
-#personal_posts{
 }
 </style>

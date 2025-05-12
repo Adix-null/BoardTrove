@@ -18,7 +18,6 @@
 .profile-pic {
     width: 40px;
     aspect-ratio: 1/1;
-    border-radius: 50%; 
     object-fit: cover;
     padding: 10px;
 }
