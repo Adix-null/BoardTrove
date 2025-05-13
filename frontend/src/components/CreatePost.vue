@@ -23,6 +23,12 @@ const boardConfig = reactive({
 });
 
 const handleSubmit = () => {
+    if (inavlidFen.value || inavlidPgn.value) {
+        alert("Invalid game information");
+        return;
+    }
+    console.log("Title:", title.value);
+    console.log("Post Type:", postType.value);
     // Add logic to handle form submission (e.g., API call)
 };
 
@@ -41,13 +47,11 @@ watch(fenInput, (newValue) => {
 });
 
 watch(pgnInput, (newValue) => {
-    console.log(newValue);
     if (newValue == "") {
         boardAPI?.loadPgn(startPgn);
     } else {
         try {
             boardAPI?.loadPgn(newValue);
-            console.log(newValue);
             inavlidPgn.value = false;
         }
         catch (error) {
@@ -108,7 +112,7 @@ watch(postType, _ => {
 
             <!-- Submit Button -->
             <div id="submit_wrapper">
-                <button type="submit" class="action-btn">Create Post</button>
+                <button type="submit" class="action-btn" onsubmit="handleSubmit">Create Post</button>
             </div>
         </form>
     </div>
