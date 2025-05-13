@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import { reactive, ref, watch } from "vue";
+import { reactive, ref, watch, watchEffect } from "vue";
 import { TheChessboard, type BoardConfig, BoardApi } from "vue3-chessboard";
 import "vue3-chessboard/style.css";
 
 const title = ref("");
 const postType = ref("game");
 const fenInput = ref("");
-const validFen = ref("");
+const startFen: string = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 const fenError = ref("");
 
 const boardConfig = reactive({
-    fen: validFen.value,
+    fen: fenInput.value,
     coordinates: true,
     viewOnly: true,
 });
@@ -19,25 +19,17 @@ const handleSubmit = () => {
     // Add logic to handle form submission (e.g., API call)
 };
 
-const validateFen = (fen: string): boolean => {
-    try {
-        // Attempt to update the chessboard with the FEN
-        boardConfig.fen = fen;
-        console.log("Valid FEN:", fen);
-        fenError.value = ""; // Clear any previous errors
-        return true; // FEN is valid
-    } catch (error) {
-        fenError.value = "Invalid FEN string"; // Set error message
-        console.error("Invalid FEN:", fenError.value);
-        return false; // FEN is invalid
-    }
-};
-
 // Watch for changes in the FEN input
-watch(fenInput, (newFen) => {
-    if (validateFen(newFen)) {
-        validFen.value = newFen; // Update the valid FEN
+watchEffect(() => {
+    if (fenInput.value == "") {
+        boardConfig.fen = startFen; // Reset to the starting position
+    } else {
+        boardConfig.fen = fenInput.value; // Update the valid FEN
     }
+});
+
+watch(postType, _ => {
+    boardConfig.fen = startFen;
 });
 
 
