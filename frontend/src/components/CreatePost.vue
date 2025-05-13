@@ -1,24 +1,46 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { reactive, ref, watch } from "vue";
 import { TheChessboard, type BoardConfig, BoardApi } from "vue3-chessboard";
 import "vue3-chessboard/style.css";
 
 const title = ref("");
 const postType = ref("game");
+const fenInput = ref("");
+const validFen = ref("");
+const fenError = ref("");
+
+const boardConfig = reactive({
+    fen: validFen.value,
+    coordinates: true,
+    viewOnly: true,
+});
 
 const handleSubmit = () => {
-    console.log("Title:", title.value);
-    console.log("Post Type:", postType.value);
     // Add logic to handle form submission (e.g., API call)
 };
 
-const fen = "5rkq/3prp1p/5RpP/p1p5/5QP1/1B6/P4PK1/8 w - - 1 1";
-
-const boardConfig: BoardConfig = {
-    fen: fen,
-    coordinates: true,
-    viewOnly: true
+const validateFen = (fen: string): boolean => {
+    try {
+        // Attempt to update the chessboard with the FEN
+        boardConfig.fen = fen;
+        console.log("Valid FEN:", fen);
+        fenError.value = ""; // Clear any previous errors
+        return true; // FEN is valid
+    } catch (error) {
+        fenError.value = "Invalid FEN string"; // Set error message
+        console.error("Invalid FEN:", fenError.value);
+        return false; // FEN is invalid
+    }
 };
+
+// Watch for changes in the FEN input
+watch(fenInput, (newFen) => {
+    if (validateFen(newFen)) {
+        validFen.value = newFen; // Update the valid FEN
+    }
+});
+
+
 </script>
 
 <template>
@@ -50,13 +72,13 @@ const boardConfig: BoardConfig = {
 
             <!-- Position -->
             <div v-if="postType === 'position'" class="form-group">
-                <input type="text" placeholder="FEN" />
+                <input id="fen" type="text" v-model="fenInput" placeholder="Enter a valid FEN string" />
             </div>
 
             <!-- Puzzle -->
 
             <a class="chessboard-container">
-                <TheChessboard :board-config="boardConfig" />
+                <TheChessboard :board-config="boardConfig" reactive-config />
             </a>
 
             <!-- Submit Button -->
