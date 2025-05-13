@@ -5,12 +5,19 @@ import "vue3-chessboard/style.css";
 
 const title = ref("");
 const postType = ref("game");
+
 const fenInput = ref("");
 const startFen: string = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
-const fenError = ref("");
+const inavlidFen = ref(false);
+
+const pgnInput = ref("");
+const startPgn: string = "";
+const inavlidPgn = ref(false);
+
+let boardAPI: BoardApi | undefined;
 
 const boardConfig = reactive({
-    fen: fenInput.value,
+    fen: startFen,
     coordinates: true,
     viewOnly: true,
 });
@@ -19,17 +26,41 @@ const handleSubmit = () => {
     // Add logic to handle form submission (e.g., API call)
 };
 
-// Watch for changes in the FEN input
-watchEffect(() => {
-    if (fenInput.value == "") {
-        boardConfig.fen = startFen; // Reset to the starting position
+watch(fenInput, (newValue) => {
+    if (newValue == "") {
+        boardAPI?.setPosition(startFen);
     } else {
-        boardConfig.fen = fenInput.value; // Update the valid FEN
+        try {
+            boardAPI?.setPosition(newValue);
+            inavlidFen.value = false;
+        }
+        catch (error) {
+            inavlidFen.value = true;
+        }
     }
 });
 
+watch(pgnInput, (newValue) => {
+    console.log(newValue);
+    if (newValue == "") {
+        boardAPI?.loadPgn(startPgn);
+    } else {
+        try {
+            boardAPI?.loadPgn(newValue);
+            console.log(newValue);
+            inavlidPgn.value = false;
+        }
+        catch (error) {
+            inavlidPgn.value = true;
+        }
+    }
+});
+
+//clear the board when the post type changes
 watch(postType, _ => {
-    boardConfig.fen = startFen;
+    pgnInput.value = "";
+    fenInput.value = "";
+    boardAPI?.resetBoard();
 });
 
 
@@ -59,18 +90,20 @@ watch(postType, _ => {
 
             <!-- Game -->
             <div v-if="postType === 'game'" class="form-group">
-                <input type="text" placeholder="PGN" />
+                <span v-if="inavlidPgn && pgnInput != ''" style="color: red">Invalid PGN string</span>
+                <input id="pgn" type="text" v-model="pgnInput" placeholder="Enter a valid PGN string" />
             </div>
 
             <!-- Position -->
             <div v-if="postType === 'position'" class="form-group">
+                <span v-if="inavlidFen" style="color: red">Invalid FEN string</span>
                 <input id="fen" type="text" v-model="fenInput" placeholder="Enter a valid FEN string" />
             </div>
 
             <!-- Puzzle -->
 
             <a class="chessboard-container">
-                <TheChessboard :board-config="boardConfig" reactive-config />
+                <TheChessboard @board-created="(api) => (boardAPI = api)" :board-config="boardConfig" reactive-config />
             </a>
 
             <!-- Submit Button -->
