@@ -13,8 +13,17 @@ const inavlidFen = ref(false);
 const pgnInput = ref("");
 const startPgn: string = "";
 const inavlidPgn = ref(false);
+const ply = ref(0);
+const plyMax = ref(0);
 
 let boardAPI: BoardApi | undefined;
+
+enum MoveAlteration {
+    Back,
+    Forward,
+    Start,
+    End
+}
 
 const boardConfig = reactive({
     fen: startFen,
@@ -31,6 +40,24 @@ const handleSubmit = () => {
     console.log("Post Type:", postType.value);
     // Add logic to handle form submission (e.g., API call)
 };
+
+function changemove(move: MoveAlteration) {
+    switch (move) {
+        case MoveAlteration.Start:
+            ply.value = 0;
+            break;
+        case MoveAlteration.End:
+            ply.value = plyMax.value;
+            break;
+        case MoveAlteration.Back:
+            ply.value = Math.max(0, ply.value - 1);
+            break;
+        case MoveAlteration.Forward:
+            ply.value = Math.min(plyMax.value, ply.value + 1);
+            break;
+    }
+    boardAPI?.viewHistory(ply.value);
+}
 
 watch(fenInput, (newValue) => {
     if (newValue == "") {
@@ -53,6 +80,8 @@ watch(pgnInput, (newValue) => {
         try {
             boardAPI?.loadPgn(newValue);
             inavlidPgn.value = false;
+            ply.value = boardAPI?.getCurrentPlyNumber() ?? 1;
+            plyMax.value = ply.value;
         }
         catch (error) {
             inavlidPgn.value = true;
@@ -67,7 +96,7 @@ watch(postType, _ => {
     boardAPI?.resetBoard();
 });
 
-
+//https://qwerty084.github.io/vue3-chessboard-docs/
 </script>
 
 <template>
@@ -96,19 +125,34 @@ watch(postType, _ => {
             <div v-if="postType === 'game'" class="form-group">
                 <span v-if="inavlidPgn && pgnInput != ''" style="color: red">Invalid PGN string</span>
                 <input id="pgn" type="text" v-model="pgnInput" placeholder="Enter a valid PGN string" />
+
+                <a class="chessboard-container">
+                    <TheChessboard @board-created="(api) => (boardAPI = api)" :board-config="boardConfig"
+                        reactive-config />
+                </a>
+                <span>
+                    <button type="button" class="action-btn move_position"
+                        @click="changemove(MoveAlteration.Start)">|⬅</button>
+                    <button type="button" class="action-btn move_position"
+                        @click="changemove(MoveAlteration.Back)">⬅</button>
+                    <button type="button" class="action-btn move_position"
+                        @click="changemove(MoveAlteration.Forward)">➡</button>
+                    <button type="button" class="action-btn move_position"
+                        @click="changemove(MoveAlteration.End)">➡|</button>
+                </span>
             </div>
 
             <!-- Position -->
             <div v-if="postType === 'position'" class="form-group">
                 <span v-if="inavlidFen" style="color: red">Invalid FEN string</span>
                 <input id="fen" type="text" v-model="fenInput" placeholder="Enter a valid FEN string" />
+                <a class="chessboard-container">
+                    <TheChessboard @board-created="(api) => (boardAPI = api)" :board-config="boardConfig"
+                        reactive-config />
+                </a>
             </div>
 
             <!-- Puzzle -->
-
-            <a class="chessboard-container">
-                <TheChessboard @board-created="(api) => (boardAPI = api)" :board-config="boardConfig" reactive-config />
-            </a>
 
             <!-- Submit Button -->
             <div id="submit_wrapper">
@@ -125,6 +169,10 @@ watch(postType, _ => {
     padding: 20px;
     border: 1px solid var(--text-color-main);
     border-radius: 8px;
+}
+
+.move_position {
+    margin: 5px;
 }
 
 .post-type-tabs {
