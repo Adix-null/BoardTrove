@@ -19,6 +19,7 @@
     align-items: center;
     justify-content: center;
     padding: 16px;
+    margin-top: 30px;
     background-color: var(--background-color-accent, #f8f9fa);
     border-top: 1px solid var(--text-color-main, #ccc);
     font-size: 0.9em;

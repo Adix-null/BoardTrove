@@ -40,6 +40,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 10px;
+    margin-bottom: 20px;
     background-color: var(--background-color-accent);
     height: 60px;
     position: sticky;

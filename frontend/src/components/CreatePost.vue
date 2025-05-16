@@ -15,6 +15,7 @@ const startPgn: string = "";
 const inavlidPgn = ref(false);
 const ply = ref(0);
 const plyMax = ref(0);
+//example 1. d4 Nf6 2. c4 e6 3. Nf3 b6 4. g3 Bb7 5. Bg2 Be7 6. Nc3 O-O 7. O-O d5 8. Ne5 c6 9. cxd5 cxd5 10. Bf4 a6 11. Rc1 b5 12. Qb3 Nc6 13. Nxc6 Bxc6 14. h3 Qd7 15. Kh2 Nh5 16. Bd2 f5 17. Qd1 b4 18. Nb1 Bb5 19. Rg1 Bd6 20. e4 fxe4 21. Qxh5 Rxf2 22. Qg5 Raf8 23. Kh1 R8f5 24. Qe3 Bd3 25. Rce1 h6 0-1
 
 let boardAPI: BoardApi | undefined;
 
@@ -123,6 +124,7 @@ watch(postType, _ => {
 
             <!-- Game -->
             <div v-if="postType === 'game'" class="form-group">
+                <label for="title">PGN</label>
                 <span v-if="inavlidPgn && pgnInput != ''" style="color: red">Invalid PGN string</span>
                 <input id="pgn" type="text" v-model="pgnInput" placeholder="Enter a valid PGN string" />
 
@@ -144,6 +146,7 @@ watch(postType, _ => {
 
             <!-- Position -->
             <div v-if="postType === 'position'" class="form-group">
+                <label for="title">FEN</label>
                 <span v-if="inavlidFen" style="color: red">Invalid FEN string</span>
                 <input id="fen" type="text" v-model="fenInput" placeholder="Enter a valid FEN string" />
                 <a class="chessboard-container">
@@ -168,6 +171,8 @@ watch(postType, _ => {
     margin: 0 auto;
     padding: 20px;
     border: 1px solid var(--text-color-main);
+    box-shadow: 0 2px 16px 0 rgba(0, 0, 0, 0.12);
+    background: var(--background-color-accent);
     border-radius: 8px;
 }
 
@@ -214,14 +219,6 @@ label {
     margin-bottom: 5px;
 }
 
-input,
-select {
-    padding: 10px;
-    font-size: 1em;
-    border: 1px solid var(--text-color-main);
-    border-radius: 4px;
-}
-
 .chessboard-container {
     display: flex;
     justify-content: center;
@@ -232,11 +229,5 @@ select {
     display: flex;
     justify-content: center;
     margin-top: 10px;
-}
-
-input:focus,
-select:focus {
-    outline: none;
-    border-color: var(--accent-highlight);
 }
 </style>

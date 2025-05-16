@@ -55,6 +55,7 @@ const boardConfig: BoardConfig = {
 #container {
     padding: 16px;
     border: 1px solid var(--text-color-main);
+    background: var(--background-color-accent);
     border-radius: 5px;
     margin: 16px auto;
 }

@@ -6,9 +6,15 @@ import { RouterView } from 'vue-router';
 </script>
 
 <template>
-  <div id="main">
+  <div id="master">
     <Navbar />
     <RouterView />
-    <FooterMy />
   </div>
+  <FooterMy />
 </template>
+
+<style scoped>
+#master {
+  min-height: 92%;
+}
+</style>

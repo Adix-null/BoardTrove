@@ -10,7 +10,7 @@
   line-height: 1.5;
 }
 :root {
-  --background-color-accent: hsl(0, 0%, 3%);
+  --background-color-accent: hsl(0, 0%, 8%);
   --background-color-main: hsl(0, 0%, 12%);
   --background-color-alt: hsl(0, 0%, 18%);
   --background-color-hover: hsl(0, 0%, 60%);
@@ -60,6 +60,7 @@ button {
   background-color: var(--accent-main);
   border-radius: 5px;
   transition: background-color 0.3s, color 0.3s;
+  text-align: center;
 }
 
 .action-btn:hover {
@@ -68,6 +69,22 @@ button {
 
 .action-btn:active {
   background-color: var(--accent-bright);
+}
+
+input,
+select {
+  border-radius: 6px;
+  border: 1px solid var(--background-color-alt);
+  background: var(--background-color-main);
+  font-size: 1em;
+  padding: 10px;
+  font-size: 1em;
+}
+
+input:focus,
+select:focus {
+  outline: none;
+  border-color: var(--accent-highlight);
 }
 
 img.inv {
