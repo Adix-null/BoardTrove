@@ -19,6 +19,7 @@
   --accent-main: #e08114;
   --accent-highlight: #ff991c;
   --accent-bright: #ffc567;
+  --default-link-color: rgb(126, 170, 255);
 
   font-family: Montserrat;
 
@@ -69,6 +70,11 @@ button {
 
 .action-btn:active {
   background-color: var(--accent-bright);
+}
+
+.text_link a {
+  color: var(--default-link-color);
+  text-decoration: underline;
 }
 
 input,

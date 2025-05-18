@@ -2,27 +2,43 @@
 import { ref } from "vue";
 
 const email = ref("");
+const username = ref("");
 const password = ref("");
+const confirmPassword = ref("");
 
-const handleLogin = () => {
-    console.log("Email:", email.value, "Password:", password.value);
-};
+function handleSignUp() {
+    // Add your registration logic here
+    if (password.value !== confirmPassword.value) {
+        alert("Passwords do not match!");
+        return;
+    }
+    // Proceed with registration (API call, etc.)
+    console.log("Register:", email.value, username.value, password.value);
+}
 </script>
 
 <template>
     <div id="container">
-        <h2>Log In to BoardTrove</h2>
-        <form @submit.prevent="handleLogin" class="login-form">
+        <h2>Create an account</h2>
+        <form @submit.prevent="handleSignUp" class="signup-form">
             <div class="form-group">
                 <label for="email">Email</label>
                 <input id="email" type="email" v-model="email" placeholder="Enter your email" required />
             </div>
-
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input id="username" type="text" v-model="username" placeholder="Choose a username" required />
+            </div>
             <div class="form-group">
                 <label for="password">Password</label>
-                <input id="password" type="password" v-model="password" placeholder="Enter your password" required />
+                <input id="password" type="password" v-model="password" placeholder="Create a password" required />
             </div>
-            <button type="submit" class="action-btn">Log In</button>
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <input id="confirmPassword" type="password" v-model="confirmPassword" placeholder="Repeat your password"
+                    required />
+            </div>
+            <button type="submit" class="action-btn">Sign Up</button>
         </form>
 
         <div class="divider">or</div>
@@ -44,10 +60,7 @@ const handleLogin = () => {
         </div>
 
         <div class="text_link">
-            <!-- <span><a href="/register">Forgot password?</a></span> -->
-        </div>
-        <div class="text_link">
-            <span>Don't have an account? <a href="/signup">Sign Up</a></span>
+            <span>Already have an account? <a href="/login">Log In</a></span>
         </div>
     </div>
 </template>
@@ -65,37 +78,28 @@ const handleLogin = () => {
     box-shadow: 0 2px 16px 0 rgba(0, 0, 0, 0.12);
 }
 
-h2 {
-    margin-bottom: 24px;
-    color: var(--text-color-main, #fff);
-}
-
-.login-form {
+.signup-form {
+    width: 100%;
     display: flex;
     flex-direction: column;
-    width: 100%;
+    gap: 14px;
 }
 
 .form-group {
-    margin-bottom: 15px;
     display: flex;
     flex-direction: column;
+    gap: 4px;
 }
 
 label {
-    margin-bottom: 6px;
-    color: var(--text-color-main, #fff);
-    font-size: 0.95em;
+    font-weight: bold;
+    font-size: 0.98em;
 }
 
 .divider {
-    margin: 16px 0;
-    color: #888;
-    font-size: 0.95em;
-}
-
-.text_link {
-    margin-top: 10px;
+    margin: 18px 0 10px 0;
+    text-align: center;
+    color: var(--text-color-secondary, #888);
 }
 
 .other-options {
@@ -104,7 +108,7 @@ label {
     align-items: center;
     gap: 12px;
     width: 100%;
-    margin-top: 8px;
+    margin-bottom: 10px;
 }
 
 .option-btn {
@@ -114,7 +118,7 @@ label {
     gap: 12px;
     padding: 10px 18px;
     border: none;
-    border-radius: 10px;
+    border-radius: 6px;
     font-size: 1em;
     cursor: pointer;
     background: #333;
@@ -139,6 +143,7 @@ label {
 .icon-circle img {
     width: 22px;
     height: 22px;
+    object-fit: contain;
 }
 
 .option-btn.google:hover {
@@ -147,5 +152,9 @@ label {
 
 .option-btn.github:hover {
     background: #24292e;
+}
+
+.text_link {
+    margin-top: 10px;
 }
 </style>

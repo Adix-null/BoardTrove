@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import FeedPost from '@/components/FeedPost.vue';
 import FriendList from '@/components/FriendList.vue';
+import Navbar from '@/components/Navbar.vue';
+import FooterMy from '@/components/Footer.vue';
 </script>
 
 <template>
+  <Navbar />
   <div id="main">
     <div id="sidebar">
       <h2>Sidebar</h2>
@@ -12,12 +15,13 @@ import FriendList from '@/components/FriendList.vue';
       <p>Links</p>
     </div>
     <div id="post_feed">
-      <FeedPost maxWidth="700px"/>
-      <FeedPost maxWidth="700px"/>
-      <FeedPost maxWidth="700px"/>
+      <FeedPost maxWidth="700px" />
+      <FeedPost maxWidth="700px" />
+      <FeedPost maxWidth="700px" />
     </div>
     <FriendList />
   </div>
+  <FooterMy />
 </template>
 
 <style scoped>
