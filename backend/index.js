@@ -1,12 +1,26 @@
+require("dotenv").config(); // Load env variables first
+
 const express = require("express");
 const cors = require("cors");
-require("dotenv").config();
+const { Pool } = require('pg');
+
+// Create a pool using your connection string
+const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-//app.use(cors());
+app.use(cors());
 app.use(express.json());
+
+app.get("/users", async (req, res) => {
+    try {
+        const users = await pool.query('SELECT id, email FROM users WHERE id=\'1\'');
+        res.json(users.rows);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
 
 app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);
