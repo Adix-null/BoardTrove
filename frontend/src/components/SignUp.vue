@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
+import { RouterLink } from 'vue-router';
 
 const email = ref("");
 const username = ref("");
@@ -60,7 +61,7 @@ function handleSignUp() {
         </div>
 
         <div class="text_link">
-            <span>Already have an account? <a href="/login">Log In</a></span>
+            <span>Already have an account? <RouterLink to="/login">Log In</RouterLink></span>
         </div>
     </div>
 </template>

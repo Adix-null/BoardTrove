@@ -1,33 +1,44 @@
 <script setup lang="ts">
+import { RouterLink, useRoute } from 'vue-router';
+
+const isCurrentLink = (routePath: string) => {
+    const route = useRoute();
+    return route.path === routePath;
+}
+
 </script>
 
 <template>
     <div id="container">
         <div class="header-left">
-            <a href="/">
+            <RouterLink to="/">
                 <h1>BoardTrove</h1>
-            </a>
+            </RouterLink>
         </div>
         <div class="header-center">
-            <a href="/">
-                <img src="../assets/icons/home.png" alt="Icon 1" class="inv icon" />
-            </a>
-            <img src="../assets/icons/fire.png" alt="Icon 2" class="inv icon" />
-            <img src="../assets/icons/user.png" alt="Icon 3" class="inv icon" />
+            <RouterLink to="/" :class="isCurrentLink('/') ? 'current-link' : 'hover'">
+                <img src="../assets/icons/home.png" alt="home" class="inv icon" />
+            </RouterLink>
+            <RouterLink to="/trending" :class="isCurrentLink('/trending') ? 'current-link' : 'hover'">
+                <img src="../assets/icons/fire.png" alt="trending page" class="inv icon" />
+            </RouterLink>
+            <RouterLink to="/friendfeed" :class="isCurrentLink('/friendfeed') ? 'current-link' : 'hover'">
+                <img src="../assets/icons/user.png" alt="friend feed" class="inv icon" />
+            </RouterLink>
         </div>
         <div class="header-right">
-            <a href="/create-post">
+            <RouterLink to="/create-post" :class="isCurrentLink('/create-post') ? 'current-link' : 'hover'">
                 <span id="new_post">+ New post</span>
-            </a>
-            <a href="">
-                <img src="../assets/icons/bell.png" alt="Icon 4" class="inv icon" />
-            </a>
-            <a href="/profile">
-                <img src="../assets/icons/profile.png" alt="Icon 5" class="inv icon" />
-            </a>
-            <a href="/login">
+            </RouterLink>
+            <RouterLink to="/notifications" :class="isCurrentLink('/notifications') ? 'current-link' : 'hover'">
+                <img src="../assets/icons/bell.png" alt="notifications" class="inv icon" />
+            </RouterLink>
+            <RouterLink to="/profile" :class="isCurrentLink('/profile') ? 'current-link' : 'hover'">
+                <img src="../assets/icons/profile.png" alt="profile" class="inv icon" />
+            </RouterLink>
+            <RouterLink to="/login" :class="isCurrentLink('/profile') ? 'current-link' : 'hover'">
                 <span id="new_post">Login</span>
-            </a>
+            </RouterLink>
         </div>
     </div>
 </template>
@@ -39,7 +50,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px;
+    padding: 0px 10px;
     margin-bottom: 20px;
     background-color: var(--background-color-accent);
     height: 60px;
@@ -55,15 +66,20 @@
     color: var(--text-color-main, #333);
 }
 
+a {
+    padding: 12px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+}
+
 .header-center {
     display: flex;
-    gap: 16px;
 }
 
 .header-right {
     display: flex;
     align-items: center;
-    gap: 16px;
 }
 
 #new_post {
@@ -76,5 +92,27 @@
     width: 30px;
     aspect-ratio: 1/1;
     cursor: pointer;
+}
+
+.current-link {
+    background: linear-gradient(to top, var(--accent-dim), transparent 60%);
+}
+
+.hover:hover {
+    background: linear-gradient(to top, var(--accent-main), transparent 60%);
+    background-size: 200% 200%;
+
+    animation: Animation 0.3s ease forwards;
+}
+
+@keyframes Animation {
+    0% {
+        background-position: 100% 0%
+    }
+
+    100% {
+        background-position: 10% 50%
+    }
+
 }
 </style>

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
+import { RouterLink } from 'vue-router';
 
 const email = ref("");
 const password = ref("");
@@ -44,10 +45,10 @@ const handleLogin = () => {
         </div>
 
         <div class="text_link">
-            <!-- <span><a href="/register">Forgot password?</a></span> -->
+            <!-- <span><RouterLink to="/register">Forgot password?</RouterLink></span> -->
         </div>
         <div class="text_link">
-            <span>Don't have an account? <a href="/signup">Sign Up</a></span>
+            <span>Don't have an account? <RouterLink to="/signup">Sign Up</RouterLink></span>
         </div>
     </div>
 </template>

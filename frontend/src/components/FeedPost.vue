@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onMounted } from "vue";
 import { TheChessboard, type BoardConfig, BoardApi } from "vue3-chessboard";
+import { RouterLink } from 'vue-router';
 import "vue3-chessboard/style.css";
 
 let boardAPI: BoardApi | undefined;
@@ -29,11 +30,11 @@ const boardConfig: BoardConfig = {
 <template>
     <div id="container" :style="{ maxWidth: maxWidth }">
         <div class="post-header">
-            <a href="/profile">
+            <RouterLink to="/profile">
                 <img class="profile-pic" src="../assets/test.jpg" alt="Profile Picture" />
-            </a>
+            </RouterLink>
             <div class="user-info">
-                <a href="/profile" class="username">Username</a>
+                <RouterLink to="/profile" class="username">Username</RouterLink>
                 <p class="date-posted">Posted on Jan 1st, 1970</p>
             </div>
         </div>
