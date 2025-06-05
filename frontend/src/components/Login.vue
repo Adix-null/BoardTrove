@@ -1,9 +1,16 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { RouterLink } from 'vue-router';
+import { supabase } from '../../../backend/supabase.js'
 
 const email = ref("");
 const password = ref("");
+
+// Log in
+const { data, error } = await supabase.auth.signInWithPassword({
+    email: email.value,
+    password: password.value,
+})
 
 const handleLogin = () => {
     console.log("Email:", email.value, "Password:", password.value);
@@ -36,12 +43,6 @@ const handleLogin = () => {
                 </span>
                 Continue with Google
             </button>
-            <!-- <button class="option-btn github">
-                <span class="icon-circle">
-                    <img src="../assets/test.jpg" alt="GitHub" />
-                </span>
-                Continue with GitHub
-            </button> -->
         </div>
 
         <div class="text_link">
