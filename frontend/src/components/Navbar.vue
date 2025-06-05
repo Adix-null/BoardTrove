@@ -36,7 +36,7 @@ const isCurrentLink = (routePath: string) => {
             <RouterLink to="/profile" :class="isCurrentLink('/profile') ? 'current-link' : 'hover'">
                 <img src="../assets/icons/profile.png" alt="profile" class="inv icon" />
             </RouterLink>
-            <RouterLink to="/login" :class="isCurrentLink('/profile') ? 'current-link' : 'hover'">
+            <RouterLink to="/login" :class="isCurrentLink('/login') ? 'current-link' : 'hover'">
                 <span id="new_post">Login</span>
             </RouterLink>
         </div>
