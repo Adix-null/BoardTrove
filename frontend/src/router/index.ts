@@ -4,6 +4,7 @@ import ProfileView from "../views/ProfileView.vue";
 import CreatePostView from "../views/CreatePostView.vue";
 import LoginView from "../views/LoginView.vue";
 import SignUp from "../views/SignUpView.vue";
+import NotFoundView from "../views/NotFoundView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -33,6 +34,11 @@ const router = createRouter({
       path: "/SignUp",
       name: "signup",
       component: SignUp,
+    },
+    {
+      path: "/:catchAll(.*)",
+      name: "404",
+      component: NotFoundView,
     },
   ],
 });

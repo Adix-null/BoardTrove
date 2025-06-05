@@ -4,13 +4,9 @@ import { RouterView } from 'vue-router';
 </script>
 
 <template>
-  <div id="master">
+  <div>
     <RouterView />
   </div>
 </template>
 
-<style scoped>
-#master {
-  min-height: 92%;
-}
-</style>
+<style scoped></style>
