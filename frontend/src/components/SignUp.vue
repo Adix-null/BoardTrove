@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { RouterLink } from 'vue-router';
-import { supabase } from '../../../backend/supabase.js'
+//import { supabase } from '../../../backend/supabase.js'
 
 const email = ref("");
 const username = ref("");
@@ -9,19 +9,24 @@ const password = ref("");
 const confirmPassword = ref("");
 
 // Sign up
-const { data, error } = await supabase.auth.signUp({
-    email: email.value,
-    password: password.value,
-})
+// const { data, error } = await supabase.auth.signUp({
+//     email: email.value,
+//     password: password.value,
+// })
 
-function handleSignUp() {
-    if (password.value !== confirmPassword.value) {
-        alert("Make sure the passwords match");
-        return;
-    }
-    // Proceed with registration (API call, etc.)
-    console.log("Register:", email.value, username.value, password.value);
-}
+// function handleSignUp() {
+//     if (password.value !== confirmPassword.value) {
+//         alert("Make sure the passwords match");
+//         return;
+//     }
+//     // Proceed with registration (API call, etc.)
+//     console.log("Register:", email.value, username.value, password.value);
+// }
+
+const handleSignUp = () => {
+    //console.log("Email:", email.value, "Password:", password.value);
+    console.log("Not implemented yet");
+};
 </script>
 
 <template>

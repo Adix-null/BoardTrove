@@ -1,20 +1,22 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { RouterLink } from 'vue-router';
-import { supabase } from '../../../backend/supabase.js'
+//import { supabase } from '../../../backend/supabase.js'
 
 const email = ref("");
 const password = ref("");
 
 // Log in
-const { data, error } = await supabase.auth.signInWithPassword({
-    email: email.value,
-    password: password.value,
-})
+// const { data, error } = await supabase.auth.signInWithPassword({
+//     email: email.value,
+//     password: password.value,
+// })
 
 const handleLogin = () => {
-    console.log("Email:", email.value, "Password:", password.value);
+    //console.log("Email:", email.value, "Password:", password.value);
+    console.log("Not implemented yet");
 };
+
 </script>
 
 <template>
@@ -38,8 +40,7 @@ const handleLogin = () => {
         <div class="other-options">
             <button class="option-btn google">
                 <span class="icon-circle">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Google_Favicon_2025.svg/250px-Google_Favicon_2025.svg.png"
-                        alt="Google" />
+                    <img src="../assets/google.jpg" alt="Google" />
                 </span>
                 Continue with Google
             </button>
