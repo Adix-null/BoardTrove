@@ -31,8 +31,8 @@ coverage
 *.local
 
 *.vs
-backend/BoardTroveAPI/bin/
-backend/BoardTroveAPI/obj/
+bin/
+obj/
 
 /cypress/videos/
 /cypress/screenshots/
