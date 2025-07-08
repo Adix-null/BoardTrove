@@ -1,29 +1,45 @@
 <script setup lang="ts">
-import { onMounted } from "vue";
+import { onMounted, reactive, ref, watch } from "vue";
 import { TheChessboard, type BoardConfig, BoardApi } from "vue3-chessboard";
 import { RouterLink } from 'vue-router';
 import "vue3-chessboard/style.css";
+import axios from "axios";
 
 let boardAPI: BoardApi | undefined;
-
-onMounted(() => {
-    //console.log(boardAPI?.getBoardPosition());
-});
+const post = ref<any>(null);
 
 const fen = "5rkq/3prp1p/5RpP/p1p5/5QP1/1B6/P4PK1/8 w - - 1 1";
 
-defineProps({
+const props = defineProps({
     maxWidth: {
         type: String,
         default: "100%", // Default max-width
     },
+    postID: {
+        type: String,
+        required: true
+    }
 });
 
-const boardConfig: BoardConfig = {
-    fen: fen,
+onMounted(async () => {
+    const url = `https://localhost:7167/api/Post/${props.postID}`;
+    console.log(`Fetching post from: ${url}`);
+    const response = await axios.get(url);
+    post.value = response.data;
+    console.log(post.value);
+});
+
+const boardConfig = reactive({
+    fen: post.value?.fen || fen,
     coordinates: true,
-    viewOnly: true
-};
+    viewOnly: true,
+});
+
+watch(post, (newPost) => {
+    if (newPost && newPost.fen) {
+        boardConfig.fen = newPost.fen;
+    }
+});
 </script>
 
 
@@ -38,15 +54,13 @@ const boardConfig: BoardConfig = {
                 <p class="date-posted">Posted on Jan 1st, 1970</p>
             </div>
         </div>
-        <h1>Feed Post</h1>
+        <h1>{{ post?.title }}</h1>
         <a class="chessboard-container">
-            <TheChessboard :board-config="boardConfig" />
+            <TheChessboard :board-config="boardConfig" reactive-config />
         </a>
         <div id="description">
             <p>
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Earum veritatis repellendus minima quibusdam
-                ullam
-                sequi officiis dolor reiciendis sit possimus.
+                {{ post?.description }}
             </p>
         </div>
     </div>

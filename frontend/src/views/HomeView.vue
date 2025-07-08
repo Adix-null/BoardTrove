@@ -15,9 +15,9 @@ import FooterMy from '@/components/Footer.vue';
       <p>Links</p>
     </div>
     <div id="post_feed">
-      <FeedPost maxWidth="700px" />
-      <FeedPost maxWidth="700px" />
-      <FeedPost maxWidth="700px" />
+      <FeedPost maxWidth="700px" postID="1" />
+      <FeedPost maxWidth="700px" postID="2" />
+      <FeedPost maxWidth="700px" postID="3" />
     </div>
     <FriendList />
   </div>

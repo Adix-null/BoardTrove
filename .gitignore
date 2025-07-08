@@ -30,6 +30,10 @@ dist-ssr
 coverage
 *.local
 
+*.vs
+backend/BoardTroveAPI/bin/
+backend/BoardTroveAPI/obj/
+
 /cypress/videos/
 /cypress/screenshots/
 
