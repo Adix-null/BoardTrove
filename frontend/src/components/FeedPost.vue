@@ -8,7 +8,7 @@ import axios from "axios";
 let boardAPI: BoardApi | undefined;
 const post = ref<any>(null);
 
-const fen = "5rkq/3prp1p/5RpP/p1p5/5QP1/1B6/P4PK1/8 w - - 1 1";
+const fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 
 const props = defineProps({
     maxWidth: {
@@ -22,7 +22,10 @@ const props = defineProps({
 });
 
 onMounted(async () => {
-    const url = `https://localhost:7167/api/Post/${props.postID}`;
+    let url = props.postID == "random" ?
+        "https://localhost:7167/api/Post/random" :
+        `https://localhost:7167/api/Post/${props.postID}`;
+
     console.log(`Fetching post from: ${url}`);
     const response = await axios.get(url);
     post.value = response.data;

@@ -36,8 +36,7 @@ import FriendList from './FriendList.vue';
 
             <div id="content-container">
                 <div class="content_box" id="personal_posts">
-                    <FeedPost max-width="600px" postID="2" />
-                    <FeedPost max-width="600px" postID="1" />
+                    <FeedPost v-for="i in 3" max-width="600px" postID="random" />
                 </div>
             </div>
         </div>

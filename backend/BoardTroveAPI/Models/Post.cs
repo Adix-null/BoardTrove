@@ -14,12 +14,12 @@ namespace BoardTroveAPI.Models
     {
         [Key]
         public string ID { get; set; } = Guid.NewGuid().ToString();
-        //public required DateTime Created { get; set; } = DateTime.Now;
+        //public required DateTime Created { get; } = DateTime.Now;
         public required string Title
         { get; set; }
         required
         public string? Description
-        { get; set; }
+        { get; set; } = "";
         public required string FEN
         { get; set; }
 

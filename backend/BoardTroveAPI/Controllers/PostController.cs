@@ -24,6 +24,19 @@ namespace BoardTroveAPI.Controllers
             return Ok(await _context.Posts.ToListAsync());
         }
 
+        [HttpGet("random")]
+        public async Task<ActionResult<Post>> GetRandomPost()
+        {
+            var posts = await _context.Posts.ToArrayAsync();
+            if (posts.Length == 0)
+            {
+                return NotFound();
+            }
+            var random = new Random();
+
+            return Ok(posts[random.Next(posts.Length)]);
+        }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<Post>> GetPostbyID(string id)
         {

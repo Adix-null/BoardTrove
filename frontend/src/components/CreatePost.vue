@@ -1,7 +1,11 @@
 <script setup lang="ts">
 import { reactive, ref, watch, watchEffect } from "vue";
 import { TheChessboard, type BoardConfig, BoardApi } from "vue3-chessboard";
+import { useRouter } from 'vue-router';
 import "vue3-chessboard/style.css";
+import axios from "axios";
+
+const router = useRouter();
 
 const title = ref("");
 const postType = ref("game");
@@ -15,7 +19,6 @@ const startPgn: string = "";
 const inavlidPgn = ref(false);
 const ply = ref(0);
 const plyMax = ref(0);
-//example 1. d4 Nf6 2. c4 e6 3. Nf3 b6 4. g3 Bb7 5. Bg2 Be7 6. Nc3 O-O 7. O-O d5 8. Ne5 c6 9. cxd5 cxd5 10. Bf4 a6 11. Rc1 b5 12. Qb3 Nc6 13. Nxc6 Bxc6 14. h3 Qd7 15. Kh2 Nh5 16. Bd2 f5 17. Qd1 b4 18. Nb1 Bb5 19. Rg1 Bd6 20. e4 fxe4 21. Qxh5 Rxf2 22. Qg5 Raf8 23. Kh1 R8f5 24. Qe3 Bd3 25. Rce1 h6 0-1
 
 let boardAPI: BoardApi | undefined;
 
@@ -32,15 +35,46 @@ const boardConfig = reactive({
     viewOnly: true,
 });
 
-const handleSubmit = () => {
-    if (inavlidFen.value || inavlidPgn.value) {
-        alert("Invalid game information");
+function validateSubmit(): boolean {
+    if (inavlidFen.value || inavlidPgn.value || (pgnInput.value.trim() == "" && fenInput.value.trim() == "") || title.value.trim() === "") {
+        return false;
+    }
+    //router.push(`/`);
+    return true;
+};
+
+const submitPGN = () => {
+    if (!validateSubmit()) {
+        alert("Invalid PGN");
         return;
     }
-    console.log("Title:", title.value);
-    console.log("Post Type:", postType.value);
-    // Add logic to handle form submission (e.g., API call)
-};
+    // const url = `https://localhost:7167/api/Post/`;
+    // axios.post(url, {
+    //     title: title.value,
+    //     description: description.value,
+    //     pgn: pgnInput.value,
+    // })
+}
+
+const submitFEN = async () => {
+    if (!validateSubmit()) {
+        alert("Invalid PGN");
+        return;
+    }
+    const url = `https://localhost:7167/api/Post/`;
+    try {
+        const response = await axios.post(url, {
+            title: title.value,
+            description: "",
+            fen: fenInput.value,
+        });
+        console.log(response);
+        console.log(response.data);
+    } catch (error) {
+        console.error(error);
+    }
+}
+
 
 function changemove(move: MoveAlteration) {
     switch (move) {
@@ -103,7 +137,7 @@ watch(postType, _ => {
 <template>
     <div id="create-post-form">
         <h1>Create a Post</h1>
-        <form @submit.prevent="handleSubmit">
+        <form>
             <div class="post-type-tabs">
                 <button type="button" :class="{ active: postType === 'game' }" @click="postType = 'game'">
                     Game
@@ -142,6 +176,11 @@ watch(postType, _ => {
                     <button type="button" class="action-btn move_position"
                         @click="changemove(MoveAlteration.End)">➡|</button>
                 </span>
+
+                <div id="submit_wrapper">
+                    <button id="submit-pgn" class="action-btn" @click="submitPGN">Create
+                        Post</button>
+                </div>
             </div>
 
             <!-- Position -->
@@ -153,14 +192,17 @@ watch(postType, _ => {
                     <TheChessboard @board-created="(api) => (boardAPI = api)" :board-config="boardConfig"
                         reactive-config />
                 </a>
+
+                <div id="submit_wrapper">
+                    <button id="submit-fen" class="action-btn" @click="submitFEN">Create
+                        Post</button>
+                </div>
             </div>
 
             <!-- Puzzle -->
 
             <!-- Submit Button -->
-            <div id="submit_wrapper">
-                <button type="submit" class="action-btn" onsubmit="handleSubmit">Create Post</button>
-            </div>
+
         </form>
     </div>
 </template>
