@@ -14,7 +14,7 @@ namespace BoardTroveAPI.Models
     {
         [Key]
         public string ID { get; set; } = Guid.NewGuid().ToString();
-        //public required DateTime Created { get; } = DateTime.Now;
+        public DateTime Created { get; set; } = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc);
         public required string Title
         { get; set; }
         required
@@ -22,8 +22,6 @@ namespace BoardTroveAPI.Models
         { get; set; } = "";
         public required string FEN
         { get; set; }
-
-        //public string? PGN { get; set; }
 
     }
 }

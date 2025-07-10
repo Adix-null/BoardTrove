@@ -3,6 +3,7 @@ using System;
 using BoardTroveAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BoardTroveAPI.Migrations
 {
     [DbContext(typeof(APIContext))]
-    partial class APIContextModelSnapshot : ModelSnapshot
+    [Migration("20250710140805_add-timestamp")]
+    partial class addtimestamp
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -44,6 +47,32 @@ namespace BoardTroveAPI.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Posts");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = "1",
+                            Created = new DateTime(2025, 7, 10, 17, 8, 4, 969, DateTimeKind.Local).AddTicks(1547),
+                            Description = "...",
+                            FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+                            Title = "Test Post"
+                        },
+                        new
+                        {
+                            ID = "2",
+                            Created = new DateTime(2025, 7, 10, 17, 8, 4, 970, DateTimeKind.Local).AddTicks(6868),
+                            Description = "AlphaZero's zugzwang game",
+                            FEN = "5rkq/3prp1p/5RpP/p1p5/5QP1/1B6/P4PK1/8 w - - 0 1",
+                            Title = "Zugzwang"
+                        },
+                        new
+                        {
+                            ID = "3",
+                            Created = new DateTime(2025, 7, 10, 17, 8, 4, 970, DateTimeKind.Local).AddTicks(6886),
+                            Description = "Nimzo Immortal",
+                            FEN = "k7/4p3/3pP1b1/2pP1p2/2P1pP2/1B1pP3/3P4/7K w - - 0 1",
+                            Title = "Zugzwang"
+                        });
                 });
 
             modelBuilder.Entity("BoardTroveAPI.Models.User", b =>

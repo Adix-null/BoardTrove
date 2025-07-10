@@ -35,7 +35,7 @@ const handleLogin = () => {
             <button type="submit" class="action-btn">Log In</button>
         </form>
 
-        <div class="divider">or</div>
+        <!-- <div class="divider">or</div>
 
         <div class="other-options">
             <button class="option-btn google">
@@ -44,7 +44,7 @@ const handleLogin = () => {
                 </span>
                 Continue with Google
             </button>
-        </div>
+        </div> -->
 
         <div class="text_link">
             <!-- <span><RouterLink to="/register">Forgot password?</RouterLink></span> -->

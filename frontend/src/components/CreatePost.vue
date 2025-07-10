@@ -58,18 +58,18 @@ const submitPGN = () => {
 
 const submitFEN = async () => {
     if (!validateSubmit()) {
-        alert("Invalid PGN");
+        alert("Invalid FEN");
         return;
     }
     const url = `https://localhost:7167/api/Post/`;
     try {
+        console.log(url);
         const response = await axios.post(url, {
             title: title.value,
             description: "",
             fen: fenInput.value,
         });
         console.log(response);
-        console.log(response.data);
     } catch (error) {
         console.error(error);
     }
@@ -178,7 +178,7 @@ watch(postType, _ => {
                 </span>
 
                 <div id="submit_wrapper">
-                    <button id="submit-pgn" class="action-btn" @click="submitPGN">Create
+                    <button type="button" id="submit-pgn" class="action-btn" @click="submitPGN">Create
                         Post</button>
                 </div>
             </div>
@@ -194,7 +194,7 @@ watch(postType, _ => {
                 </a>
 
                 <div id="submit_wrapper">
-                    <button id="submit-fen" class="action-btn" @click="submitFEN">Create
+                    <button type="button" id="submit-fen" class="action-btn" @click="submitFEN">Create
                         Post</button>
                 </div>
             </div>

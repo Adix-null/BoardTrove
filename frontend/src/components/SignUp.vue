@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { RouterLink } from 'vue-router';
-//import { supabase } from '../../../backend/supabase.js'
 
 const email = ref("");
 const username = ref("");
@@ -53,7 +52,7 @@ const handleSignUp = () => {
             <button type="submit" class="action-btn">Sign Up</button>
         </form>
 
-        <div class="divider">or</div>
+        <!-- <div class="divider">or</div>
 
         <div class="other-options">
             <button class="option-btn google">
@@ -63,7 +62,7 @@ const handleSignUp = () => {
                 </span>
                 Continue with Google
             </button>
-        </div>
+        </div> -->
 
         <div class="text_link">
             <span>Already have an account? <RouterLink to="/login">Log In</RouterLink></span>
