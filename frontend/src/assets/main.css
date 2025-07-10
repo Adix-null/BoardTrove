@@ -19,6 +19,11 @@
   --accent-main: #e08114;
   --accent-highlight: #ff991c;
   --accent-bright: #ffc567;
+
+  --secondary-dim: #1153bd;
+  --secondary-main: #1463e0;
+  --secondary-highlight: #14a4e0;
+
   --default-link-color: rgb(126, 170, 255);
 
   font-family: Montserrat;

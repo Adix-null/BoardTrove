@@ -4,6 +4,7 @@ import { TheChessboard, type BoardConfig, BoardApi } from "vue3-chessboard";
 import { useRouter } from 'vue-router';
 import "vue3-chessboard/style.css";
 import axios from "axios";
+import { useToast } from "@/composables/useToast";
 
 const router = useRouter();
 
@@ -21,6 +22,8 @@ const ply = ref(0);
 const plyMax = ref(0);
 
 let boardAPI: BoardApi | undefined;
+
+const { showToast } = useToast();
 
 enum MoveAlteration {
     Back,
@@ -70,8 +73,10 @@ const submitFEN = async () => {
             fen: fenInput.value,
         });
         console.log(response);
+        showToast("Post created successfully");
     } catch (error) {
         console.error(error);
+        showToast("Failed to create post");
     }
 }
 
