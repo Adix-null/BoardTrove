@@ -14,38 +14,45 @@ namespace BoardTroveAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthController(IConfiguration configuration) : ControllerBase
+    public class AuthController(APIContext _context, IConfiguration configuration) : ControllerBase
     {
-        public static User user = new();
         [HttpPost("register")]
-        public ActionResult<User> Register(UserDTO request)
+        public async Task<ActionResult<User>> Register(UserDTO request)
         {
+            if (await _context.Users.AnyAsync(u => u.Username == request.Username))
+            {
+                return BadRequest("Username already exists");
+            }
+
+            User user = new();
             var hashedPassword = new PasswordHasher<User>().HashPassword(user, request.Password);
             user.Username = request.Username;
             user.PasswordHash = hashedPassword;
-
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
             return Ok(user);
         }
         [HttpPost("login")]
-        public ActionResult<string> Login(UserDTO request)
+        public async Task<ActionResult<string>> Login(UserDTO request)
         {
-            if (user.Username != request.Username)
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == request.Username);
+            if (user == null)
             {
-                return BadRequest("User not found");
+                return BadRequest("Incorrect credentials");
             }
             if (new PasswordHasher<User>().VerifyHashedPassword(user, user.PasswordHash, request.Password) == PasswordVerificationResult.Failed)
             {
-                return BadRequest("Incorrect password");
+                return BadRequest("Incorrect credentials");
             }
-            string token = CreateToken(user);
-            return Ok(token);
+            return CreateToken(user);
         }
 
         private string CreateToken(User user)
         {
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, user.Username)
+                new(ClaimTypes.Name, user.Username),
+                new(ClaimTypes.NameIdentifier, user.ID),
             };
             var key = new SymmetricSecurityKey(
                 Encoding.UTF8.GetBytes(configuration.GetValue<string>("AppSettings:Token")!));
