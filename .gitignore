@@ -48,3 +48,4 @@ obj/
 *.sw?
 
 *.tsbuildinfo
+/backend/BoardTroveAPI/appsettings.json
