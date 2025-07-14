@@ -70,7 +70,7 @@ const handleLogin = () => {
 
 h2 {
     margin-bottom: 24px;
-    color: var(--text-color-main, #fff);
+    color: var(--text-color-main);
 }
 
 .login-form {

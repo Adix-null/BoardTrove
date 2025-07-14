@@ -2,7 +2,7 @@
 
 namespace BoardTroveAPI.Models
 {
-    public class User
+    public class UserDTO
     {
         [Key]
         public string ID { get; set; } = Guid.NewGuid().ToString();
@@ -11,7 +11,7 @@ namespace BoardTroveAPI.Models
 
         public string Username { get; set; } = string.Empty;
 
-        public string PasswordHash { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty;
 
         public string Bio { get; set; } = "";
     }
