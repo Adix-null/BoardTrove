@@ -1,41 +1,46 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { RouterLink } from 'vue-router';
+import axios from "axios";
+import { useToast } from "@/composables/useToast";
 
 const email = ref("");
 const username = ref("");
 const password = ref("");
 const confirmPassword = ref("");
 
-// Sign up
-// const { data, error } = await supabase.auth.signUp({
-//     email: email.value,
-//     password: password.value,
-// })
+const { showToast } = useToast();
 
-// function handleSignUp() {
-//     if (password.value !== confirmPassword.value) {
-//         alert("Make sure the passwords match");
-//         return;
-//     }
-//     // Proceed with registration (API call, etc.)
-//     console.log("Register:", email.value, username.value, password.value);
-// }
 
-const handleSignUp = () => {
-    //console.log("Email:", email.value, "Password:", password.value);
-    console.log("Not implemented yet");
+const handleSignUp = async () => {
+    let url = `https://localhost:7167/api/Auth/register`;
+    try {
+        const response = await axios.post(url, {
+            name: username.value,
+            password: password.value
+        });
+        console.log(response.data);
+        showToast("Signup successful");
+    } catch (error: any) {
+        if (error.response.status === 409) {
+            showToast("Username is taken");
+        } else {
+            showToast("Error signing up");
+        }
+    }
 };
+
+
 </script>
 
 <template>
     <div id="container">
         <h2>Create an account</h2>
         <form @submit.prevent="handleSignUp" class="signup-form">
-            <div class="form-group">
+            <!-- <div class="form-group">
                 <label for="email">Email</label>
                 <input id="email" type="email" v-model="email" placeholder="Enter your email" required />
-            </div>
+            </div> -->
             <div class="form-group">
                 <label for="username">Username</label>
                 <input id="username" type="text" v-model="username" placeholder="Choose a username" required />

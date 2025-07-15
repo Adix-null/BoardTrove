@@ -66,7 +66,6 @@ const submitFEN = async () => {
     }
     const url = `https://localhost:7167/api/Post/`;
     try {
-        console.log(url);
         const response = await axios.post(url, {
             title: title.value,
             description: "",

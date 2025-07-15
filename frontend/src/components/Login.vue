@@ -1,20 +1,28 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { RouterLink } from 'vue-router';
-//import { supabase } from '../../../backend/supabase.js'
 
-const email = ref("");
+import axios from "axios";
+import { useToast } from "@/composables/useToast";
+
+const username = ref("");
 const password = ref("");
 
-// Log in
-// const { data, error } = await supabase.auth.signInWithPassword({
-//     email: email.value,
-//     password: password.value,
-// })
+const { showToast } = useToast();
 
-const handleLogin = () => {
-    //console.log("Email:", email.value, "Password:", password.value);
-    console.log("Not implemented yet");
+const handleLogin = async () => {
+    let url = `https://localhost:7167/api/Auth/login`;
+    try {
+        const response = await axios.post(url, {
+            name: username.value,
+            password: password.value
+        });
+        console.log(response.data);
+        showToast("Login successful");
+        //jwt stuff
+    } catch (error: any) {
+        showToast("Incorrect credentials");
+    }
 };
 
 </script>
@@ -24,8 +32,8 @@ const handleLogin = () => {
         <h2>Log In to BoardTrove</h2>
         <form @submit.prevent="handleLogin" class="login-form">
             <div class="form-group">
-                <label for="email">Email</label>
-                <input id="email" type="email" v-model="email" placeholder="Enter your email" required />
+                <label for="username">Username</label>
+                <input id="username" type="text" v-model="username" placeholder="Choose a username" required />
             </div>
 
             <div class="form-group">

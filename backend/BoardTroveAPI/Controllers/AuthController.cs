@@ -21,7 +21,7 @@ namespace BoardTroveAPI.Controllers
         {
             if (await _context.Users.AnyAsync(u => u.Username == request.Username))
             {
-                return BadRequest("Username already exists");
+                return Conflict("Username already exists");
             }
 
             User user = new();
