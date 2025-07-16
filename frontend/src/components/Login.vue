@@ -4,6 +4,7 @@ import { RouterLink } from 'vue-router';
 
 import axios from "axios";
 import { useToast } from "@/composables/useToast";
+import router from "@/router";
 
 const username = ref("");
 const password = ref("");
@@ -14,12 +15,14 @@ const handleLogin = async () => {
     let url = `https://localhost:7167/api/Auth/login`;
     try {
         const response = await axios.post(url, {
-            name: username.value,
+            username: username.value,
             password: password.value
         });
         console.log(response.data);
         showToast("Login successful");
-        //jwt stuff
+        //set jwt cookie 
+        localStorage.setItem('jwt', response.data);
+        router.push("/");
     } catch (error: any) {
         showToast("Incorrect credentials");
     }

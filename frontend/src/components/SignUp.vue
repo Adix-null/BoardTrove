@@ -16,7 +16,7 @@ const handleSignUp = async () => {
     let url = `https://localhost:7167/api/Auth/register`;
     try {
         const response = await axios.post(url, {
-            name: username.value,
+            username: username.value,
             password: password.value
         });
         console.log(response.data);
