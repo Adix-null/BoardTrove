@@ -29,7 +29,6 @@ onMounted(async () => {
     console.log(`Fetching post from: ${url}`);
     const response = await axios.get(url);
     post.value = response.data;
-    console.log(post.value);
 });
 
 const boardConfig = reactive({

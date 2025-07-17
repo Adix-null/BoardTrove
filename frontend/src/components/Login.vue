@@ -22,6 +22,8 @@ const handleLogin = async () => {
         showToast("Login successful");
         //set jwt cookie 
         localStorage.setItem('jwt', response.data);
+        //const token = localStorage.getItem('jwt');
+        //console.log(`${token}`);
         router.push("/");
     } catch (error: any) {
         showToast("Incorrect credentials");
