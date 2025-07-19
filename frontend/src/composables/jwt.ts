@@ -1,6 +1,7 @@
 // src/composables/useJwt.ts
 import { ref, computed } from "vue";
 import { jwtDecode } from "jwt-decode";
+import axios from "axios";
 
 export const jwt = ref<JwtPayload | null>(null);
 export const userId = ref<string | null>(null);
@@ -53,10 +54,19 @@ export function useJWT() {
     jwt.value = null;
   }
 
+  const returnUser = async () => {
+    useJWT().getJWT();
+    console.log(userId.value);
+    let url = `https://localhost:7167/api/User/${userId.value}`;
+    const response = await axios.get(url);
+    return response.data;
+  };
+
   return {
     jwt,
     getJWT,
     setJWT,
     clearJWT,
+    returnUser,
   };
 }

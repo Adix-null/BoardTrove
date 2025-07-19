@@ -53,7 +53,7 @@ watch(post, (newPost) => {
             </RouterLink>
             <div class="user-info">
                 <RouterLink to="/profile" class="username">Username</RouterLink>
-                <p class="date-posted">Posted on Jan 1st, 1970</p>
+                <p class="date-posted">{{ post?.created }}</p>
             </div>
         </div>
         <h1>{{ post?.title }}</h1>

@@ -1,6 +1,30 @@
 <script setup lang="ts">
+import { onMounted, ref } from 'vue';
 import FeedPost from './FeedPost.vue';
 import FriendList from './FriendList.vue';
+import { useJWT } from '@/composables/jwt';
+
+const user = ref<any>(null);
+
+onMounted(() => {
+    useJWT().returnUser().then(data => {
+        user.value = data;
+    }).catch(error => {
+        console.error('Error fetching user data:', error);
+    });
+});
+
+// const props = defineProps({
+//     username: {
+//         type: String,
+//         required: true
+//     },
+//     joinedDate: {
+//         type: String,
+//         default: 'January 1st, 1970'
+//     },
+// });
+
 </script>
 
 <template>
@@ -9,7 +33,11 @@ import FriendList from './FriendList.vue';
             <div id="profile-header">
                 <img class="profile-pic" src="../assets/test.jpg" alt="Profile Picture" />
                 <div id="profile-info">
-                    <h1>Username</h1>
+                    <div id="profile-name">
+                        <p id="username">{{ user?.username }}</p>
+                        <p id="joined-date">joined {{ user?.created }}</p>
+                    </div>
+
                     <div id="actions">
                         <button class="action-btn">Add Friend</button>
                         <button class="action-btn">Follow</button>
@@ -61,9 +89,21 @@ import FriendList from './FriendList.vue';
     margin-bottom: 20px;
 }
 
+#username {
+    font-size: 2.5em;
+    margin-bottom: 7px;
+    margin-top: 0px;
+}
+
+#joined-date {
+    align-self: center;
+    margin: 0;
+    font-size: 1em;
+}
+
 .profile-pic {
-    width: 130px;
-    height: 130px;
+    width: 175px;
+    aspect-ratio: 1;
     object-fit: cover;
     margin-right: 30px;
 }

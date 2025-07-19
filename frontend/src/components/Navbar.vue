@@ -2,19 +2,10 @@
 import { RouterLink, useRoute } from 'vue-router';
 import axios from 'axios';
 import { onMounted } from 'vue';
-import { useJWT, userId } from '@/composables/jwt'
-
-const returnUser = async () => {
-    useJWT().getJWT();
-    console.log(userId.value);
-    let url = `https://localhost:7167/api/User/${userId.value}`;
-    console.log(`Getting user: ${url}`);
-    const response = await axios.get(url);
-    return response.data;
-}
+import { useJWT } from '@/composables/jwt'
 
 onMounted(() => {
-    returnUser().then(user => {
+    useJWT().returnUser().then(user => {
         console.log('User data:', user);
     }).catch(error => {
         console.error('Error fetching user data:', error);
@@ -59,7 +50,6 @@ const isCurrentLink = (routePath: string) => {
             <RouterLink to="/login" :class="isCurrentLink('/login') ? 'current-link' : 'hover'">
                 <span id="new_post">Login</span>
             </RouterLink>
-            <button @click="returnUser">~</button>
         </div>
     </div>
 </template>
