@@ -25,6 +25,7 @@ namespace BoardTroveAPI.Controllers
             {
                 return NotFound();
             }
+            return StatusCode(418, user);
             return Ok(user);
         }
 

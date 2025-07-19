@@ -5,6 +5,7 @@ import { RouterLink } from 'vue-router';
 import axios from "axios";
 import { useToast } from "@/composables/useToast";
 import router from "@/router";
+import { useJWT } from '@/composables/jwt'
 
 const username = ref("");
 const password = ref("");
@@ -19,11 +20,8 @@ const handleLogin = async () => {
             password: password.value
         });
         console.log(response.data);
+        useJWT().setJWT(response.data);
         showToast("Login successful");
-        //set jwt cookie 
-        localStorage.setItem('jwt', response.data);
-        //const token = localStorage.getItem('jwt');
-        //console.log(`${token}`);
         router.push("/");
     } catch (error: any) {
         showToast("Incorrect credentials");

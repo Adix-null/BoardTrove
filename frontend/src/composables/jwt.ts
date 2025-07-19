@@ -2,56 +2,61 @@
 import { ref, computed } from "vue";
 import { jwtDecode } from "jwt-decode";
 
+export const jwt = ref<JwtPayload | null>(null);
+export const userId = ref<string | null>(null);
+
 interface JwtPayload {
-  id: string;
+  "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name": string;
+  "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier": string;
   exp: string;
   iss: string;
   aud: string;
 }
 
-export function getJWT() {
-  //change later to use cookies
-  const token = ref<string | null>(localStorage.getItem("jwt"));
-  const decodedToken = ref<any | null>(null);
-
-  if (token.value) {
-    try {
-      decodedToken.value = jwtDecode(token.value);
-      const userId = decodedToken.value?.id;
-    } catch (err) {
-      clearJWT();
-    }
+export function useJWT() {
+  function getCookie(name: string): string | null {
+    const match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
+    return match ? decodeURIComponent(match[2]) : null;
   }
 
-  const userId = computed(() => decodedToken.value?.id || null);
-  const isAuthenticated = computed(() => !!decodedToken.value);
+  function getJWT(): string | null {
+    const cookie = ref<any | null>(getCookie("jwt"));
 
-  function setJWT(newToken: string) {
+    if (cookie.value) {
+      try {
+        jwt.value = jwtDecode<JwtPayload>(cookie.value);
+        userId.value =
+          jwt.value["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"] || null;
+        console.log("JWT decoded:", userId.value);
+        return userId!.value;
+      } catch (err) {
+        clearJWT();
+        return null;
+      }
+    }
+    return null;
+  }
+
+  function setJWT(newToken: string): void {
     try {
       document.cookie = `jwt=${newToken}; path=/; secure; samesite=strict;`;
-      //localStorage.setItem("jwt", newToken);
-      token.value = newToken;
-      decodedToken.value = jwtDecode<JwtPayload>(newToken);
+      getJWT();
     } catch (err) {
-      console.error("JWT decoding error:", err);
+      console.error("cookie error:", err);
       clearJWT();
     }
   }
 
-  function clearJWT() {
-    //localStorage.removeItem("jwt");
+  function clearJWT(): void {
     const date = new Date();
     document.cookie = `jwt=; path=/; expires=${date.setTime(date.getTime() - 1)}`;
-    token.value = null;
-    decodedToken.value = null;
+    jwt.value = null;
   }
 
   return {
-    token,
-    decodedToken,
-    userId,
-    isAuthenticated,
-    setToken: setJWT,
+    jwt,
+    getJWT,
+    setJWT,
     clearJWT,
   };
 }

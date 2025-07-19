@@ -1,20 +1,16 @@
 <script setup lang="ts">
 import { RouterLink, useRoute } from 'vue-router';
-import { jwtDecode } from "jwt-decode";
 import axios from 'axios';
 import { onMounted } from 'vue';
-import { getJWT } from '@/composables/jwt'
-
-const { userId } = getJWT()
+import { useJWT, userId } from '@/composables/jwt'
 
 const returnUser = async () => {
+    useJWT().getJWT();
     console.log(userId.value);
     let url = `https://localhost:7167/api/User/${userId.value}`;
     console.log(`Getting user: ${url}`);
     const response = await axios.get(url);
     return response.data;
-
-    return null;
 }
 
 onMounted(() => {
