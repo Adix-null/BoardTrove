@@ -3,6 +3,7 @@ using System;
 using BoardTroveAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BoardTroveAPI.Migrations
 {
     [DbContext(typeof(APIContext))]
-    partial class APIContextModelSnapshot : ModelSnapshot
+    [Migration("20250721212722_post_poly")]
+    partial class post_poly
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -37,18 +40,9 @@ namespace BoardTroveAPI.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("post_type")
-                        .IsRequired()
-                        .HasMaxLength(13)
-                        .HasColumnType("character varying(13)");
-
                     b.HasKey("ID");
 
                     b.ToTable("Posts");
-
-                    b.HasDiscriminator<string>("post_type").HasValue("post_base");
-
-                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("BoardTroveAPI.Models.User", b =>
@@ -78,28 +72,6 @@ namespace BoardTroveAPI.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("BoardTroveAPI.Models.FENPost", b =>
-                {
-                    b.HasBaseType("BoardTroveAPI.Models.BasePost");
-
-                    b.Property<string>("FEN")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasDiscriminator().HasValue("post_fen");
-                });
-
-            modelBuilder.Entity("BoardTroveAPI.Models.PGNPost", b =>
-                {
-                    b.HasBaseType("BoardTroveAPI.Models.BasePost");
-
-                    b.Property<string>("PGN")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasDiscriminator().HasValue("post_pgn");
                 });
 #pragma warning restore 612, 618
         }

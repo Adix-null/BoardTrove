@@ -9,13 +9,9 @@ namespace BoardTroveAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class UserController(APIContext context) : ControllerBase
     {
-        private readonly APIContext _context;
-        public UserController(APIContext context)
-        {
-            _context = context;
-        }
+        private readonly APIContext _context = context;
 
         [HttpGet("{username}/usn")]
         public async Task<ActionResult<User>> GetUserByUsername(string username)
@@ -25,7 +21,7 @@ namespace BoardTroveAPI.Controllers
             {
                 return NotFound();
             }
-            return StatusCode(418, user);
+
             return Ok(user);
         }
 

@@ -4,28 +4,25 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
+using System.Reflection;
+using static BoardTroveAPI.Data.UtilMisc;
 
 namespace BoardTroveAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PostController : ControllerBase
+    public class PostController(APIContext context) : ControllerBase
     {
-        private readonly APIContext _context;
-
-        public PostController(APIContext context)
-        {
-            _context = context;
-        }
+        private readonly APIContext _context = context;
 
         [HttpGet]
-        public async Task<ActionResult<List<Post>>> GetAllPosts()
+        public async Task<ActionResult<List<BasePost>>> GetAllPosts()
         {
             return Ok(await _context.Posts.ToListAsync());
         }
 
         [HttpGet("random")]
-        public async Task<ActionResult<Post>> GetRandomPost()
+        public async Task<ActionResult<BasePost>> GetRandomPost()
         {
             var posts = await _context.Posts.ToArrayAsync();
             if (posts.Length == 0)
@@ -38,7 +35,7 @@ namespace BoardTroveAPI.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Post>> GetPostbyID(string id)
+        public async Task<ActionResult<BasePost>> GetPostbyID(string id)
         {
             var post = await _context.Posts.FindAsync(id);
             if (post == null)
@@ -49,7 +46,7 @@ namespace BoardTroveAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Post>> SubmitPost(Post newPost)
+        public async Task<ActionResult<BasePost>> SubmitPost(/*[FromQuery] string? type,*/ BasePost newPost)
         {
             if (newPost == null)
             {
@@ -61,18 +58,23 @@ namespace BoardTroveAPI.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdatePost(string id, Post updatedPost)
+        public async Task<IActionResult> UpdatePost(string id, BasePost updatedPost)
         {
             var post = await _context.Posts.FindAsync(id);
             if (post == null)
             {
                 return NotFound();
             }
+            if (post.GetType() != updatedPost.GetType())
+            {
+                return Conflict("Post types do not match");
+            }
 
             post.Title = updatedPost.Title;
             post.Description = updatedPost.Description;
-            post.FEN = updatedPost.FEN;
+            CopyDerivedProperties(post, updatedPost);
 
+            await _context.SaveChangesAsync();
             return NoContent();
         }
 
