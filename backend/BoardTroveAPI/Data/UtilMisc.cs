@@ -5,6 +5,11 @@ namespace BoardTroveAPI.Data
 {
     public static class UtilMisc
     {
+        public static Dictionary<string, string> TypesToModelNames = new()
+        {
+            { "FEN", "FENPost" },
+            { "PGN", "PGNPost" }
+        };
         public static void CopyDerivedProperties<T>(T source, T target)
         {
             var baseProps = typeof(BasePost).GetProperties().Select(p => p.Name).ToHashSet();

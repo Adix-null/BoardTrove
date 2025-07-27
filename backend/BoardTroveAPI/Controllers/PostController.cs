@@ -3,8 +3,10 @@ using BoardTroveAPI.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Hosting;
 using System.Reflection;
+using System.Text.Json;
 using static BoardTroveAPI.Data.UtilMisc;
 
 namespace BoardTroveAPI.Controllers
@@ -46,15 +48,43 @@ namespace BoardTroveAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<BasePost>> SubmitPost(/*[FromQuery] string? type,*/ BasePost newPost)
+        public async Task<ActionResult<BasePost>> SubmitPost([FromQuery] string type, [FromBody] JsonElement newPost)
         {
-            if (newPost == null)
+            if (type != "FENPost" && type != "PGNPost")
             {
-                return BadRequest();
+                return BadRequest("Invalid post type");
             }
-            _context.Posts.Add(newPost);
+
+            var baseType = typeof(BasePost);
+            var matchingType = AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(a => a.GetTypes())
+                .FirstOrDefault(t => t.IsClass && !t.IsAbstract && baseType.IsAssignableFrom(t) && t.Name == type);
+
+            if (matchingType == null)
+                return BadRequest("Type not found or not a subclass.");
+
+            BasePost? castedPost = null;
+            try
+            {
+                castedPost = (BasePost)JsonSerializer.Deserialize(newPost.GetRawText(), matchingType);
+            }
+            catch (JsonException ex)
+            {
+                return BadRequest($"Failed to deserialize post json: {ex.Message}");
+            }
+            catch (InvalidCastException ex)
+            {
+                return BadRequest($"Failed to cast deserialized object: {ex.Message}");
+            }
+
+            if (castedPost == null)
+            {
+                return BadRequest("Deserialized post is null");
+            }
+
+            _context.Posts.Add(castedPost);
             await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(SubmitPost), new { id = newPost.ID }, newPost);
+            return CreatedAtAction(nameof(SubmitPost), new { id = castedPost.ID }, castedPost);
         }
 
         [HttpPut("{id}")]
