@@ -5,16 +5,22 @@ namespace BoardTroveAPI.Data
 {
     public static class UtilMisc
     {
-        public static Dictionary<string, string> TypesToModelNames = new()
+        public static readonly Dictionary<string, Type> TypesToModelNames = new()
         {
-            { "FEN", "FENPost" },
-            { "PGN", "PGNPost" }
+            ["FEN"] = typeof(FENPost),
+            ["PGN"] = typeof(PGNPost)
         };
+
+        //currently unused methods
         public static void CopyDerivedProperties<T>(T source, T target)
         {
             var baseProps = typeof(BasePost).GetProperties().Select(p => p.Name).ToHashSet();
             var props = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                                 .Where(p => p.CanRead && p.CanWrite && !baseProps.Contains(p.Name));
+                                 .Where(p =>
+                                     p.CanRead &&
+                                     p.CanWrite &&
+                                     !baseProps.Contains(p.Name)
+                                 );
 
             foreach (var prop in props)
             {
@@ -22,6 +28,18 @@ namespace BoardTroveAPI.Data
                 prop.SetValue(target, value);
             }
         }
-
+        public static Type? MatchTypeFromBaseClass(string type)
+        {
+            var baseType = typeof(BasePost);
+            var matchingType = AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(a => a.GetTypes())
+                .FirstOrDefault(t =>
+                    t.Name == type &&
+                    t.IsClass &&
+                    !t.IsAbstract &&
+                    baseType.IsAssignableFrom(t)
+                );
+            return matchingType;
+        }
     }
 }

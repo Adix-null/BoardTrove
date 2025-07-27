@@ -17,12 +17,6 @@ namespace BoardTroveAPI.Controllers
     {
         private readonly APIContext _context = context;
 
-        [HttpGet]
-        public async Task<ActionResult<List<BasePost>>> GetAllPosts()
-        {
-            return Ok(await _context.Posts.ToListAsync());
-        }
-
         [HttpGet("random")]
         public async Task<ActionResult<BasePost>> GetRandomPost()
         {
@@ -50,36 +44,28 @@ namespace BoardTroveAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<BasePost>> SubmitPost([FromQuery] string type, [FromBody] JsonElement newPost)
         {
-            if (type != "FENPost" && type != "PGNPost")
+            Type? postType = null;
+            if (TypesToModelNames[type] is Type modelType)
+            {
+                postType = modelType;
+            }
+            if (postType == null)
             {
                 return BadRequest("Invalid post type");
             }
 
-            var baseType = typeof(BasePost);
-            var matchingType = AppDomain.CurrentDomain.GetAssemblies()
-                .SelectMany(a => a.GetTypes())
-                .FirstOrDefault(t => t.IsClass && !t.IsAbstract && baseType.IsAssignableFrom(t) && t.Name == type);
-
-            if (matchingType == null)
-                return BadRequest("Type not found or not a subclass.");
-
             BasePost? castedPost = null;
             try
             {
-                castedPost = (BasePost)JsonSerializer.Deserialize(newPost.GetRawText(), matchingType);
+                castedPost = (BasePost)JsonSerializer.Deserialize(newPost.GetRawText(), postType)!;
+            }
+            catch (InvalidCastException ex)
+            {
+                return BadRequest($"Failed to cast: {ex.Message}");
             }
             catch (JsonException ex)
             {
                 return BadRequest($"Failed to deserialize post json: {ex.Message}");
-            }
-            catch (InvalidCastException ex)
-            {
-                return BadRequest($"Failed to cast deserialized object: {ex.Message}");
-            }
-
-            if (castedPost == null)
-            {
-                return BadRequest("Deserialized post is null");
             }
 
             _context.Posts.Add(castedPost);
@@ -88,9 +74,10 @@ namespace BoardTroveAPI.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdatePost(string id, BasePost updatedPost)
+        public async Task<IActionResult> UpdatePost([FromQuery] string id, [FromBody] JsonElement updatedPost)
         {
             var post = await _context.Posts.FindAsync(id);
+            //var matchingType = post
             if (post == null)
             {
                 return NotFound();
@@ -99,10 +86,10 @@ namespace BoardTroveAPI.Controllers
             {
                 return Conflict("Post types do not match");
             }
-
-            post.Title = updatedPost.Title;
-            post.Description = updatedPost.Description;
-            CopyDerivedProperties(post, updatedPost);
+            //todo: fix
+            //post.Title = updatedPost.Title;
+            //post.Description = updatedPost.Description;
+            //CopyDerivedProperties(post, updatedPost);
 
             await _context.SaveChangesAsync();
             return NoContent();

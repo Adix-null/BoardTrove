@@ -12,9 +12,8 @@ namespace BoardTroveAPI.Data
         {
             modelBuilder.Entity<BasePost>()
                 .HasDiscriminator<string>("post_type")
-                .HasValue<BasePost>("post_base")
-                .HasValue<FENPost>("post_fen")
-                .HasValue<PGNPost>("post_pgn");
+                .HasValue<FENPost>("FEN")
+                .HasValue<PGNPost>("PGN");
         }
 
         public DbSet<BasePost> Posts { get; set; }
