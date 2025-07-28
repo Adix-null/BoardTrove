@@ -54,7 +54,7 @@ namespace BoardTroveAPI.Controllers
                 return BadRequest("Invalid post type");
             }
 
-            BasePost? castedPost = null;
+            BasePost? castedPost;
             try
             {
                 castedPost = (BasePost)JsonSerializer.Deserialize(newPost.GetRawText(), postType)!;
@@ -74,25 +74,35 @@ namespace BoardTroveAPI.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdatePost([FromQuery] string id, [FromBody] JsonElement updatedPost)
+        public async Task<IActionResult> UpdatePost(string id, [FromBody] JsonElement updatedPost)
         {
             var post = await _context.Posts.FindAsync(id);
-            //var matchingType = post
             if (post == null)
             {
                 return NotFound();
             }
-            if (post.GetType() != updatedPost.GetType())
+
+            BasePost? castedPost;
+            try
             {
-                return Conflict("Post types do not match");
+                castedPost = (BasePost)JsonSerializer.Deserialize(updatedPost.GetRawText(), post.GetType())!;
             }
-            //todo: fix
-            //post.Title = updatedPost.Title;
-            //post.Description = updatedPost.Description;
-            //CopyDerivedProperties(post, updatedPost);
+            catch (InvalidCastException ex)
+            {
+                return BadRequest($"Failed to cast: {ex.Message}");
+            }
+            catch (JsonException ex)
+            {
+                return BadRequest($"Failed to deserialize post json: {ex.Message}");
+            }
+
+            post.Title = castedPost.Title;
+            post.Description = castedPost.Description;
+            //Does not work as of now
+            CopyDerivedProperties(castedPost, post);
 
             await _context.SaveChangesAsync();
-            return NoContent();
+            return Ok(post);
         }
 
         [HttpDelete("{id}")]
