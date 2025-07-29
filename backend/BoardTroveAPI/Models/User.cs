@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.Extensions.Hosting;
+using System.ComponentModel.DataAnnotations;
 
 namespace BoardTroveAPI.Models
 {
@@ -16,5 +17,7 @@ namespace BoardTroveAPI.Models
         public string PfpLink { get; set; } = string.Empty;
 
         public string Bio { get; set; } = "";
+
+        public ICollection<BasePost> Posts { get; } = [];
     }
 }

@@ -67,6 +67,16 @@ namespace BoardTroveAPI.Controllers
             {
                 return BadRequest($"Failed to deserialize post json: {ex.Message}");
             }
+            if (castedPost.UserId == null)
+            {
+                return NotFound("UserId missing");
+            }
+            var user = await _context.Users.FindAsync(castedPost.UserId);
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+            castedPost.User = user;
 
             _context.Posts.Add(castedPost);
             await _context.SaveChangesAsync();
@@ -96,6 +106,7 @@ namespace BoardTroveAPI.Controllers
                 return BadRequest($"Failed to deserialize post json: {ex.Message}");
             }
 
+            castedPost.User = null;
             post.Title = castedPost.Title;
             post.Description = castedPost.Description;
             //Does not work as of now
