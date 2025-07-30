@@ -2,11 +2,13 @@
 import { onMounted, reactive, ref, watch } from "vue";
 import { TheChessboard, type BoardConfig, BoardApi } from "vue3-chessboard";
 import { RouterLink } from 'vue-router';
+import { useFormattedDate } from '@/composables/dateUtils'
 import "vue3-chessboard/style.css";
 import axios from "axios";
 
 let boardAPI: BoardApi | undefined;
 const post = ref<any>(null);
+const user = ref<any>(null);
 
 const fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 
@@ -22,13 +24,20 @@ const props = defineProps({
 });
 
 onMounted(async () => {
+    //get post
     let url = props.postID == "random" ?
         "https://localhost:7167/api/Post/random" :
         `https://localhost:7167/api/Post/${props.postID}`;
 
     console.log(`Fetching post from: ${url}`);
+
     const response = await axios.get(url);
     post.value = response.data;
+
+    //get user
+    let urlUser = `https://localhost:7167/api/User/${post.value?.userId}`;
+    const userResponse = await axios.get(urlUser);
+    user.value = userResponse.data;
 });
 
 const boardConfig = reactive({
@@ -49,11 +58,14 @@ watch(post, (newPost) => {
     <div id="container" :style="{ maxWidth: maxWidth }">
         <div class="post-header">
             <RouterLink to="/profile">
-                <img class="profile-pic" src="../assets/test.jpg" alt="Profile Picture" />
+                <img class="profile-pic" :src="user?.pfpLink" alt="Profile Picture" />
             </RouterLink>
             <div class="user-info">
-                <RouterLink to="/profile" class="username">Username</RouterLink>
-                <p class="date-posted">{{ post?.created }}</p>
+                <RouterLink to="/profile" class="username">{{ user?.username }}</RouterLink>
+                <p class="date-posted">{{ useFormattedDate().formatTimestamp(post?.created, 'en-US', {
+                    dateStyle: 'long',
+                    timeStyle: 'short'
+                }) }}</p>
             </div>
         </div>
         <h1>{{ post?.title }}</h1>

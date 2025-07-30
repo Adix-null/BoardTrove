@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import { RouterLink, useRoute } from 'vue-router';
-import axios from 'axios';
-import { onMounted } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { useJWT } from '@/composables/jwt'
+import axios from 'axios';
 
-onMounted(() => {
+const user = ref<any>(null);
+const resolvedPfp = ref<any>(null);
+
+onMounted(async () => {
     useJWT().returnUser().then(user => {
         console.log('User data:', user);
     }).catch(error => {
@@ -45,7 +48,8 @@ const isCurrentLink = (routePath: string) => {
                 <img src="../assets/icons/bell.png" alt="notifications" class="inv icon" />
             </RouterLink>
             <RouterLink to="/profile" :class="isCurrentLink('/profile') ? 'current-link' : 'hover'">
-                <img src="../assets/icons/profile.png" alt="profile" class="inv icon" />
+                <img :src="resolvedPfp" alt="profile" class="icon" />
+
             </RouterLink>
             <RouterLink to="/login" :class="isCurrentLink('/login') ? 'current-link' : 'hover'">
                 <span id="new_post">Login</span>

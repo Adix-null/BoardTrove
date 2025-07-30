@@ -2,6 +2,7 @@
 import { onMounted, ref } from 'vue';
 import FeedPost from './FeedPost.vue';
 import FriendList from './FriendList.vue';
+import { useFormattedDate } from '@/composables/dateUtils'
 import { useJWT } from '@/composables/jwt';
 
 const user = ref<any>(null);
@@ -14,28 +15,20 @@ onMounted(() => {
     });
 });
 
-// const props = defineProps({
-//     username: {
-//         type: String,
-//         required: true
-//     },
-//     joinedDate: {
-//         type: String,
-//         default: 'January 1st, 1970'
-//     },
-// });
-
 </script>
 
 <template>
     <div id="main">
         <div id="profile-wrapper">
             <div id="profile-header">
-                <img class="profile-pic" src="../assets/test.jpg" alt="Profile Picture" />
+                <img class="profile-pic" :src="user?.pfpLink" alt="Profile Picture" />
                 <div id="profile-info">
                     <div id="profile-name">
                         <p id="username">{{ user?.username }}</p>
-                        <p id="joined-date">joined {{ user?.created }}</p>
+                        <p id="joined-date">joined {{ useFormattedDate().formatTimestamp(user?.created, 'en-US', {
+                            dateStyle: 'long',
+                            timeStyle: 'short'
+                        }) }}</p>
                     </div>
 
                     <div id="actions">
@@ -51,10 +44,7 @@ onMounted(() => {
             </div>
 
             <div id="bio">
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ut diam lacinia, posuere ante ac,
-                    commodo diam. Duis vitae auctor purus, et sagittis ligula. Nam eu posuere est. Duis at interdum
-                    massa, nec imperdiet metus. Duis convallis velit metus, at semper lectus laoreet nec. In cursus
-                    tincidunt augue ullamcorper ullamcorper.
+                <p>{{ user?.bio }}
                 </p>
                 <p>Links:
                     <a href="https://chess.com/user" target="_blank">chess.com</a>,

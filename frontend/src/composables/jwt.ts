@@ -56,7 +56,6 @@ export function useJWT() {
 
   const returnUser = async () => {
     useJWT().getJWT();
-    console.log(userId.value);
     let url = `https://localhost:7167/api/User/${userId.value}`;
     const response = await axios.get(url);
     return response.data;
