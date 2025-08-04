@@ -7,9 +7,10 @@ import { useJWT } from '@/composables/jwt';
 
 const user = ref<any>(null);
 
-onMounted(() => {
+onMounted(async () => {
     useJWT().returnUser().then(data => {
         user.value = data;
+        console.log('User 17:', user.value);
     }).catch(error => {
         console.error('Error fetching user data:', error);
     });
@@ -54,7 +55,7 @@ onMounted(() => {
 
             <div id="content-container">
                 <div class="content_box" id="personal_posts">
-                    <FeedPost v-for="i in 3" max-width="600px" postID="random" />
+                    <!-- <FeedPost v-for="i in 3" max-width="600px" :postID="user?.posts[i].id" /> -->
                 </div>
             </div>
         </div>

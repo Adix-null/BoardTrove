@@ -18,6 +18,6 @@ namespace BoardTroveAPI.Models
 
         public string Bio { get; set; } = "";
 
-        public ICollection<BasePost> Posts { get; } = [];
+        public virtual ICollection<BasePost> Posts { get; } = [];
     }
 }

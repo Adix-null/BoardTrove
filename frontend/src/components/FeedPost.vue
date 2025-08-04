@@ -20,23 +20,32 @@ const props = defineProps({
     postID: {
         type: String,
         required: true
+    },
+    userID: {
+        type: String,
+        default: null
     }
 });
 
 onMounted(async () => {
     //get post
-    let url = props.postID == "random" ?
-        "https://localhost:7167/api/Post/random" :
-        `https://localhost:7167/api/Post/${props.postID}`;
-
+    let url = "";
+    if (!props.userID) {
+        url = props.postID == "random" ?
+            "https://localhost:7167/api/Post/random" :
+            `https://localhost:7167/api/Post/${props.postID}`;
+    }
+    else {
+        url = `https://localhost:7167/api/User/${props.userID}`;
+    }
     console.log(`Fetching post from: ${url}`);
 
     const response = await axios.get(url);
     post.value = response.data;
 
     //get user
-    let urlUser = `https://localhost:7167/api/User/${post.value?.userId}`;
-    const userResponse = await axios.get(urlUser);
+    url = `https://localhost:7167/api/User/${post.value?.userId}`;
+    const userResponse = await axios.get(url);
     user.value = userResponse.data;
 });
 

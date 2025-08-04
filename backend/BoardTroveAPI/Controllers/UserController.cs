@@ -1,4 +1,5 @@
 ﻿using BoardTroveAPI.Data;
+using BoardTroveAPI.Migrations;
 using BoardTroveAPI.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,7 +17,9 @@ namespace BoardTroveAPI.Controllers
         [HttpGet("{username}/usn")]
         public async Task<ActionResult<User>> GetUserByUsername(string username)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
+            var user = await _context.Users
+                .Include(u => u.Posts)
+                .FirstOrDefaultAsync(u => u.Username == username);
             if (user == null)
             {
                 return NotFound();
@@ -28,12 +31,34 @@ namespace BoardTroveAPI.Controllers
         [HttpGet("{ID}")]
         public async Task<ActionResult<User>> GetUserByID(string ID)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.ID == ID);
+            var user = await _context.Users
+                .Include(u => u.Posts)
+                .FirstOrDefaultAsync(u => u.ID == ID);
             if (user == null)
             {
                 return NotFound();
             }
             return Ok(user);
+        }
+
+        [HttpGet("{ID}/posts")]
+        public async Task<ActionResult<User>> GetUserPosts(string ID)
+        {
+            /*var user = await _context.Users.FirstOrDefaultAsync(u => u.ID == ID);
+            if (user == null)
+            {
+                return NotFound();
+            }*/
+            var user = await _context.Users
+                .Include(u => u.Posts)
+                .FirstOrDefaultAsync(u => u.ID == ID);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(user.Posts);
         }
 
         [HttpDelete("{ID}")]

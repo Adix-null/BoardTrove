@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.InteropServices;
+using System.Text.Json.Serialization;
 
 namespace BoardTroveAPI.Models
 {
@@ -13,6 +14,7 @@ namespace BoardTroveAPI.Models
         public string? Description { get; set; } = "";
 
         public required string? UserId { get; set; }
+        [JsonIgnore]
         public User? User { get; set; }
     }
 }

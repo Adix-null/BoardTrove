@@ -14,7 +14,13 @@ namespace BoardTroveAPI.Data
                 .HasDiscriminator<string>("post_type")
                 .HasValue<FENPost>("FEN")
                 .HasValue<PGNPost>("PGN");
+
+            modelBuilder.Entity<BasePost>()
+              .HasOne(p => p.User)
+              .WithMany(u => u.Posts)
+              .HasForeignKey(p => p.UserId);
         }
+
 
         public DbSet<BasePost> Posts { get; set; }
         public DbSet<FENPost> FENPosts { get; set; }

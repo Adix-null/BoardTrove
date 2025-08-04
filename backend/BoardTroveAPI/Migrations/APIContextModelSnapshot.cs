@@ -49,7 +49,7 @@ namespace BoardTroveAPI.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Posts");
+                    b.ToTable("Posts", (string)null);
 
                     b.HasDiscriminator<string>("post_type").HasValue("BasePost");
 
@@ -82,7 +82,7 @@ namespace BoardTroveAPI.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("BoardTroveAPI.Models.FENPost", b =>

@@ -48,7 +48,7 @@ const isCurrentLink = (routePath: string) => {
                 <img src="../assets/icons/bell.png" alt="notifications" class="inv icon" />
             </RouterLink>
             <RouterLink to="/profile" :class="isCurrentLink('/profile') ? 'current-link' : 'hover'">
-                <img :src="resolvedPfp" alt="profile" class="icon" />
+                <img :src="user ? user.pfpLink : 'nuwtf'" alt="profile" class="icon" />
 
             </RouterLink>
             <RouterLink to="/login" :class="isCurrentLink('/login') ? 'current-link' : 'hover'">
